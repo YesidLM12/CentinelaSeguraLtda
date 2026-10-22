@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: centinela
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  messages:
+    basename: messages
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    validate-on-migrate: true
+    out-of-order: false
+
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 3600000
+
+
+server:
+  servlet:
+    session:
+      timeout: 30m
+  port: 8080
