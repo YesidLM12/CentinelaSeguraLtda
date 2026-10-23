@@ -12,19 +12,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @EnableJpaAuditing 
 public class JpaAuditingConfig {
 
-////    @Bean
-////    public Optional<String> auditorProvider(){
-////        Authentication autentication =
-////            SecurityContextHolder.getContext()
-////                .getAuthentication();
-////
-////        if (autentication != null || !autentication.isAuthenticated() || autentication.getPrincipal() == null) {
-////            return Optional.empty();
-////        }
-////
-////        return Optional.of(autentication.getName());
-//
-//    }
+    @Bean
+    public Optional<String> auditorProvider(){
+        Authentication autentication =
+            SecurityContextHolder.getContext()
+                .getAuthentication();
+
+        if (autentication == null || !autentication.isAuthenticated() || autentication.getPrincipal().equals("anonymousUser")) {
+            return Optional.empty();
+        }
+
+        return Optional.of(autentication.getName());
+
+    }
 
 
 }
