@@ -1,0 +1,184 @@
+:root {
+    --azul-noche: #0B2545;
+    /*Barra lateral, encabezados, botones principales y logotipo*/
+    --azul-acero: #1D4E89;
+    /*Botones secundarios, enlaces, filas seleccionadas y gráficos*/
+    --gris-acero: #5C6B7A;
+    /*Textos secundarios y placeholders, etiquetas y bordes*/
+    --niebla: #5C6B7A;
+    /*Fondos de pantalla y filas alternas de las tablas*/
+    --ambar: #F2A900;
+    /*Acento: botón de accrión destacada, indicadores y detalles de logotipo*/
+    --blanco: #FFFFFF;
+    /**Tarjetas, formularios y tablas*/
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --error-color: #e74c3c;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+html {
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p {
+    font-size: 1.6rem;
+}
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--niebla);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    color: var(--azul-noche);
+}
+
+.login-container {
+    background-color: var(--blanco);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    color: var(--blanco);
+}
+
+.logo {
+    width: 65px;
+    height: 65px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.subtitle-login {
+    font-size: 2rem;
+    color: var(--ambar);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: var(--azul-noche);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
+
+.question {
+    font-size: 2rem;
+    color: var(--blanco);
+}
+
+.btn-login {
+    background-color: var(--ambar);
+    color: var(--azul-acero);
+    border: none;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: var(--azul-acero);
+    color: var(--blanco);
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.input-con-boton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+#togglePassword {
+    background-color: var(--azul-acero);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+}
+
+#idTogglePassword:hover {
+    background-color: var(--azul-noche);
+}
+
+.input-field {
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--blanco);
+    color: var(--azul-noche);
+    width: 100%;
+    padding: 1rem;
+}
+
+.input-field::placeholder {
+    color: var(--gris-acero);
+
+}
+
+.input-field:focus {
+    outline: 2px solid var(--ambar);
+    border-color: var(--ambar);
+    box-shadow: 0 0 0 2px rgba(242, 169, 0, 0.2);
+}
+
+label {
+    font-size: 1.4rem;
+    color: var(--blanco);
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.success-message {
+    color: var(--success-color);
+    font-size: 1.4rem;
+    text-align: center;
+}

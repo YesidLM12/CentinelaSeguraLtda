@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/loginStyle.css">
+    <script src="../static/js/auth.js" defer></script>
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="login-container">
+            <div class="header">
+            <img src="../static/img/Curva.svg" alt="Logo" class="logo">
+            <div class="title-container">
+                <h1 class="title">CENTINELA</h1>
+                <h2 class="subtitle-login">Segura Ltda.</h2>
+                <p class="subtitle">Gestión de servicios de seguridad y entrenamiento</p>
+            </div>
+        </div>
+
+            <div class="form-container">
+                <form th:action="@{/login}" method="post" id="loginForm" class="login-form">
+                    <h2 class="question">¿Quién anda ahí?</h2>
+
+                    <div class="input-group">
+                        <label for="email">Correo corporativo</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            autocomplete="email"
+                            placeholder="Correo corporativo" 
+                            autofocus
+                            required 
+                            class="input-field">
+                            <span class="error-campo" id="errorusername"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Contraseña</label>
+                        <div class="input-con-boton">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                autocomplete="current-password"
+                                placeholder="Contraseña" 
+                                required 
+                                class="input-field">
+                                <button type="button" id="togglePassword"
+                            aria-label="Mostrar contraseña">Mostrar</button>
+                        </div>
+                        <span class="error-campo" id="errorpassword"></span>
+                    </div>
+
+                    <button type="submit" id="btnLogin" class="btn-login">Ingresar</button>
+
+                    <!-- <div th:if="${param.error}" class="alerta alerta-error" role="alert">
+                        Usuario o contraseña incorrectos
+                    </div>
+                    <div th:if="${param.logout}" class="alerta alerta-success" role="alert">
+                        Sesión cerrada correctamente
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
