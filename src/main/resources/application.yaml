@@ -6,8 +6,8 @@ spring:
     name: centinela
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
+    url: jdbc:h2:file:./data/centinela
+    username: sa
     driver-class-name: org.h2.Driver
 
   jpa:
