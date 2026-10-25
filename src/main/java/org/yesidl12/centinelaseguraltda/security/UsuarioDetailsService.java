@@ -27,8 +27,8 @@ public class UsuarioDetailsService implements UserDetailsService {
         return User.withUsername(u.getNombre())
                 .password(u.getPasswordHash())
                 .roles(u.getRol().name())
-                .disabled(!u.getActivo())
-                .accountLocked(u.getBloqueadoHasta().isAfter(LocalDateTime.now()))
+                .disabled(!u.isActivo())
+                .accountLocked(u.getBloqueadoHasta() != null && u.getBloqueadoHasta().isAfter(LocalDateTime.now()))
                 .build();
     }
 }
