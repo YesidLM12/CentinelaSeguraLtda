@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <script th:src="@{/js/usuarios.js}" defer></script>
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <h1>Lista de Usuarios</h1>
+
+    <table id="tabla-usuarios">
+        <thead>
+        <tr>
+            <th>Documento</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+            <th>ultimo acceso</th>
+        </tr>
+        </thead>
+        <tbody>
+           <tr th:each="usuario : ${usuarios}">
+               <td th:text="${usuario.documento()}"></td>
+               <td th:text="${usuario.nombre()}"></td>
+               <td th:text="${usuario.correo()}"></td>
+               <td th:text="${usuario.rol()}"></td>
+               <td th:text="${usuario.activo()}"></td>
+               <td th:text="${usuario.ultimoAcceso()}"></td>
+               <td>
+                   <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEditar(${usuario.id})">Editar</button>
+                   <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEliminar(${usuario.id})">Eliminar</button>
+               </td>
+           </tr>
+        </tbody>
+    </table>
+</body>
+</html>

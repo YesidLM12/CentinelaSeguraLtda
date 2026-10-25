@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
-    <script th:src="@{/js/auth.js}" defer></script>
+    <link rel="stylesheet" th:href="@{css/loginStyle.css}">
+    <script th:src="@{js/auth.js}" defer></script>
     <title>Iniciar Sesión</title>
 </head>
 <body>
@@ -15,7 +15,7 @@
         
         <div class="login-container">
             <div class="header">
-            <img src="/img/Curva.svg" alt="Logo" class="logo">
+            <img src="img/Curva.svg" alt="Logo" class="logo">
             <div class="title-container">
                 <h1 class="title">CENTINELA</h1>
                 <h2 class="subtitle-login">Segura Ltda.</h2>
@@ -23,16 +23,23 @@
             </div>
         </div>
 
-            <div class="form-container">
-                <form th:action="@{/login}" method="post" id="loginForm" class="login-form">
-                    <h2 class="question">¿Quién anda ahí?</h2>
+        <div th:if="${param.error}" class="alerta alerta-error" id="errorpassword" role="alert">
+            Usuario o contraseña incorrectos
+        </div>
+        <div th:if="${param.logout}" class="alerta alerta-success" role="alert">
+            Sesión cerrada correctamente
+        </div>
 
-                    <div class="input-group">
+        <div class="form-container">
+            <form th:action="@{/login}" method="post" id="loginForm" class="login-form" novalidate>
+                <h2 class="question">¿Quién anda ahí?</h2>
+
+                <div class="input-group">
                         <label for="email">Correo corporativo</label>
                         <input 
                             type="email" 
                             id="email" 
-                            name="email" 
+                            name="username" 
                             autocomplete="email"
                             placeholder="Correo corporativo" 
                             autofocus
@@ -59,13 +66,6 @@
                     </div>
 
                     <button type="submit" id="btnLogin" class="btn-login">Ingresar</button>
-
-                    <!-- <div th:if="${param.error}" class="alerta alerta-error" role="alert">
-                        Usuario o contraseña incorrectos
-                    </div>
-                    <div th:if="${param.logout}" class="alerta alerta-success" role="alert">
-                        Sesión cerrada correctamente
-                    </div> -->
                 </form>
             </div>
         </div>

@@ -14,4 +14,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Long> {
     Optional<UsuarioEntity> findByDocumento(String documento);
 
     void deleteByDocumento(String documento);
+
+   Optional<UsuarioEntity> findByCorreo( String username );
 }

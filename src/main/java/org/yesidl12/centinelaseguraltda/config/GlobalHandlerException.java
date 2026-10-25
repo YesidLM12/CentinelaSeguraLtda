@@ -8,17 +8,17 @@ import org.springframework.http.ResponseEntity;
 @RestControllerAdvice
 public class GlobalHandlerException {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
-        return new ResponseEntity<>(
-            new ErrorResponse(
-                java.time.LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                e.getMessage()
-            ),
-            HttpStatus.INTERNAL_SERVER_ERROR
-        );
-    }
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<ErrorResponse> handleException(Exception e) {
+    //     return new ResponseEntity<>(
+    //         new ErrorResponse(
+    //             java.time.LocalDateTime.now(),
+    //             HttpStatus.INTERNAL_SERVER_ERROR.value(),
+    //             e.getMessage()
+    //         ),
+    //         HttpStatus.INTERNAL_SERVER_ERROR
+    //     );
+    // }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleUsuarioConflictException(RuntimeException e) {

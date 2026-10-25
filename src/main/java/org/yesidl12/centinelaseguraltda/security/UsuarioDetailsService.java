@@ -21,10 +21,10 @@ public class UsuarioDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UsuarioEntity u = usuarioRepository.findByNombre(username)
+        UsuarioEntity u = usuarioRepository.findByCorreo(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        return User.withUsername(u.getNombre())
+        return User.withUsername(u.getCorreo())
                 .password(u.getPasswordHash())
                 .roles(u.getRol().name())
                 .disabled(!u.isActivo())
