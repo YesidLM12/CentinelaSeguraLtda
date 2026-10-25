@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/loginStyle.css">
-    <script src="../static/js/auth.js" defer></script>
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <script th:src="@{/js/auth.js}" defer></script>
     <title>Iniciar Sesión</title>
 </head>
 <body>
@@ -12,7 +12,7 @@
         
         <div class="login-container">
             <div class="header">
-            <img src="../static/img/Curva.svg" alt="Logo" class="logo">
+            <img src="/img/Curva.svg" alt="Logo" class="logo">
             <div class="title-container">
                 <h1 class="title">CENTINELA</h1>
                 <h2 class="subtitle-login">Segura Ltda.</h2>
