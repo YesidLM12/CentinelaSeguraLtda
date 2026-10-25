@@ -1,10 +1,8 @@
 package org.yesidl12.centinelaseguraltda.service;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.yesidl12.centinelaseguraltda.repository.UsuarioRepository;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-@PreAuthorize("hasRole('ADMINISTRADOR')")
-@Controller("/usuario")
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -30,7 +26,7 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
     
-    public void crearUsuario(@RequestBody UsuarioCommand command, Authentication authentication) {
+    public UsuarioEntity crearUsuario(UsuarioCommand command, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
 
         boolean existeUsuario = usuarioRepository.findByDocumento(command.documento()).isPresent();
@@ -48,9 +44,9 @@ public class UsuarioService {
         .passwordHash(passwordEncoder.encode(command.password()))
         .build();
         
-        usuarioRepository.save(usuarioNuevo);
-
+        
         log.info("Usuario creado exitosamente por {}: {}", usuarioLogueado, command.documento());
+        return usuarioRepository.save(usuarioNuevo);
     }
 
     public Page<UsuarioResponse> listarUsuarios(int page, int size) {
