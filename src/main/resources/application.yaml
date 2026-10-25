@@ -38,6 +38,17 @@ spring:
     secret: ${JWT_SECRET}
     expiration: 3600000
 
+logging:
+  level:
+    root: INFO
+    com:
+      yesidl12:
+        centinelaseguraltda: DEBUG
+
+  org:
+    springframework: INFO
+    hibernate: ERROR
+
 
 server:
   servlet:
