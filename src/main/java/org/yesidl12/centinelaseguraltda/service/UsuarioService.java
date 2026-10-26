@@ -57,8 +57,7 @@ public class UsuarioService {
             u.getNombre(),
             u.getCorreo(),
             u.getRol().name(),
-            u.isActivo(),
-            u.getUltimoAcceso()
+            u.isActivo()
         ));
     }
 
@@ -69,8 +68,7 @@ public class UsuarioService {
             usuario.getNombre(),
             usuario.getCorreo(),
             usuario.getRol().name(),
-            usuario.isActivo(),
-            usuario.getUltimoAcceso()
+            usuario.isActivo()
         );
     }
 

@@ -4,37 +4,58 @@
     <meta charset="UTF-8">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
     <script th:src="@{/js/usuarios.js}" defer></script>
     <title>Lista de Usuarios</title>
 </head>
 <body>
-    <h1>Lista de Usuarios</h1>
+    <div class="container-usuarios-lista">
+        <section>
+            <div th:replace="~{fragments/navbar :: navbar}"></div>
+        </section>
 
-    <table id="tabla-usuarios">
-        <thead>
-        <tr>
-            <th>Documento</th>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Acciones</th>
-            <th>ultimo acceso</th>
-        </tr>
-        </thead>
-        <tbody>
-           <tr th:each="usuario : ${usuarios}">
-               <td th:text="${usuario.documento()}"></td>
-               <td th:text="${usuario.nombre()}"></td>
-               <td th:text="${usuario.correo()}"></td>
-               <td th:text="${usuario.rol()}"></td>
-               <td th:text="${usuario.activo()}"></td>
-               <td th:text="${usuario.ultimoAcceso()}"></td>
-               <td>
-                   <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEditar(${usuario.id})">Editar</button>
-                   <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEliminar(${usuario.id})">Eliminar</button>
-               </td>
-           </tr>
-        </tbody>
-    </table>
+        <main class="container-tabla-usuarios">
+            <div class="container-titulo">
+                <h1>Usuarios</h1>
+
+                <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalNuevo()" class="btn btn-login">Nuevo Usuario</button>
+            </div>
+
+            <div class="tabla-container">
+                <table id="tabla-usuarios">
+                    <thead>
+                    <tr>
+                        <th>Documento</th>  
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <td th:text="${usuario.documento()}"></td>
+                        <td th:text="${usuario.nombre()}"></td>
+                        <td th:text="${usuario.correo()}"></td>
+                        <td th:text="${usuario.rol()}"></td>
+                        <td th:text="${usuario.activo()}"></td>
+                        <td>
+                            <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEditar(${usuario.id})" class="btn btn-accion">Editar</button>
+                            <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEliminar(${usuario.id})" class="btn btn-accion">Eliminar</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    <p th:if="${usuarios.isEmpty()}">No hay usuarios registrados</p>
+                    <button class="btn btn-accion" th:if="${!usuarios.isEmpty() && usuarios.number > 0}" th:onclick="cambiarPagina(${usuarios.number - 1})">Anterior</button>
+                    <p th:if="${!usuarios.isEmpty()}">mostrando pagina: <span th:text="${usuarios.number + 1}"></span> de <span th:text="${usuarios.totalPages}"></span></p>
+                    <button class="btn btn-accion" th:if="${!usuarios.isEmpty() && usuarios.number < usuarios.totalPages - 1}" th:onclick="cambiarPagina(${usuarios.number + 1})">Siguiente</button>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

@@ -20,7 +20,7 @@ import org.yesidl12.centinelaseguraltda.service.UsuarioService;
 
 @Controller()
 @RequestMapping("/usuarios")
-//@PreAuthorize("hasRole('ADMINISTRADOR')")
+@PreAuthorize("hasRole('ADMINISTRADOR')")
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
