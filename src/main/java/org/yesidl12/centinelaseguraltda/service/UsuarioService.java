@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.yesidl12.centinelaseguraltda.repository.UsuarioRepository;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.yesidl12.centinelaseguraltda.dto.UsuarioCommand;
 import org.yesidl12.centinelaseguraltda.dto.UsuarioResponse;
 import org.yesidl12.centinelaseguraltda.entity.UsuarioEntity;
@@ -40,8 +39,10 @@ public class UsuarioService {
         .documento(command.documento())
         .nombre(command.nombre() + " " + command.apellido())
         .correo(command.email())
-        .rol(Rol.valueOf(command.rol()))
+        .rol(Rol.valueOf(command.rol().toUpperCase()))
+        .activo(true)
         .passwordHash(passwordEncoder.encode(command.password()))
+        .debeCambiarPassword(true)
         .build();
         
         
@@ -58,8 +59,7 @@ public class UsuarioService {
             u.getNombre(),
             u.getCorreo(),
             u.getRol().name(),
-            u.isActivo(),
-            u.getUltimoAcceso()
+            u.isActivo()
         ));
     }
 
@@ -70,12 +70,11 @@ public class UsuarioService {
             usuario.getNombre(),
             usuario.getCorreo(),
             usuario.getRol().name(),
-            usuario.isActivo(),
-            usuario.getUltimoAcceso()
+            usuario.isActivo()
         );
     }
 
-    public void actualizarUsuario(String documento, UsuarioCommand command, Authentication authentication) {
+    public UsuarioEntity actualizarUsuario(String documento, UsuarioCommand command, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         
         boolean existeUsuario = usuarioRepository.findByDocumento(documento).isPresent();
@@ -93,9 +92,10 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         
         log.info("Usuario actualizado por {}: {}", usuarioLogueado, documento);
+        return usuario;
     }
 
-    public void desactivarUsuario(String documento, Authentication authentication) {
+    public UsuarioEntity desactivarUsuario(String documento, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         
         boolean existeUsuario = usuarioRepository.findByDocumento(documento).isPresent();
@@ -110,8 +110,10 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         
         log.info("Usuario desactivado por {}: {}", usuarioLogueado, documento);
+        return usuario;
     }
 
+    // TODO => Restringir que un admin se puede elminar a el mismo
     public void eliminarUsuario(String documento, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         

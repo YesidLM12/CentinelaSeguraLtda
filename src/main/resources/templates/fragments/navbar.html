@@ -1,0 +1,33 @@
+<nav th:fragment="navbar" xmlns:xsi="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="navbar-container">
+        <div class="navbar-logo">
+            <img th:src="@{/img/logo_white.svg}" alt="Logo">
+            <h1 th:text="Centinela" class="navbar-logo-text"></h1>
+        </div>
+        
+        <div class="navbar-links">
+            <a th:href="@{/panel}" class="navbar-link">Panel</a>
+            <a th:href="@{/servicios}" class="navbar-link">Servicios</a>
+            <a th:href="@{/personal}" class="navbar-link">Personal y equipos</a>
+            <a th:href="@{/entrenamientos}" class="navbar-link">Entrenamientos</a>
+            <a th:href="@{/clientes}" class="navbar-link">Clientes</a>
+            <a th:href="@{/contrataciones}" class="navbar-link">Contrataciones</a>
+            <a th:href="@{/pagos}" class="navbar-link">Pagos</a>
+            <a th:href="@{/informes}" class="navbar-link">Informes</a>
+
+            <div sec:authorize="hasRole('ADMINISTRADOR')">
+                <a th:href="@{/usuarios}" class="navbar-link">Usuarios</a>
+            </div>
+        </div>
+
+        <div class="navbar-user">
+            <span>Hola, <strong sec:authentication="name"></strong></span>
+        </div>
+
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="navbar-logout-btn">Cerrar sesión</button>
+        </form>
+    </div>
+</nav>
