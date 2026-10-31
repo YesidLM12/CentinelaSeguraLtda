@@ -6,6 +6,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
     <script th:src="@{/js/usuarios.js}" defer></script>
+
     <title>Lista de Usuarios</title>
 </head>
 <body>
@@ -18,7 +19,13 @@
             <div class="container-titulo">
                 <h1>Usuarios</h1>
 
-                <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalNuevo()" class="btn btn-login">Nuevo Usuario</button>
+                <button
+                type="button"
+                th:action="@{/usuarios/crear}"
+                sec:authorize="hasRole('ADMINISTRADOR')"
+                class="btn-login">
+                <a th:href="@{/usuarios/crear}">Nuevo Usuario</a>
+            </button>
             </div>
 
             <div class="tabla-container">
@@ -50,9 +57,9 @@
 
                 <div class="pagination-container">
                     <p th:if="${usuarios.isEmpty()}">No hay usuarios registrados</p>
-                    <button class="btn btn-accion" th:if="${!usuarios.isEmpty() && usuarios.number > 0}" th:onclick="cambiarPagina(${usuarios.number - 1})">Anterior</button>
+                    <button class="pagination-button" th:if="${!usuarios.isEmpty() && usuarios.number > 0}" th:onclick="cambiarPagina(${usuarios.number - 1})">Anterior</button>
                     <p th:if="${!usuarios.isEmpty()}">mostrando pagina: <span th:text="${usuarios.number + 1}"></span> de <span th:text="${usuarios.totalPages}"></span></p>
-                    <button class="btn btn-accion" th:if="${!usuarios.isEmpty() && usuarios.number < usuarios.totalPages - 1}" th:onclick="cambiarPagina(${usuarios.number + 1})">Siguiente</button>
+                    <button class="pagination-button" th:if="${!usuarios.isEmpty() && usuarios.number < usuarios.totalPages - 1}" th:onclick="cambiarPagina(${usuarios.number + 1})">Siguiente</button>
                 </div>
             </div>
         </main>

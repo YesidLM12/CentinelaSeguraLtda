@@ -204,6 +204,11 @@ label {
     padding: 3rem;
 }
 
+.container-tabla-usuarios a{
+    text-decoration: none;
+    color: black;
+}
+
 .container-titulo{
     width: 100%;
     display: flex;
@@ -236,7 +241,7 @@ label {
 #tabla-usuarios td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid var(--gris-acero);
+    /* border-bottom: 1px solid var(--gris-acero); */
     font-size: 1.6rem;
 }
 
@@ -352,3 +357,69 @@ label {
     font-size: 1.6rem;
     color: var(--gris-acero);
 }
+
+/*Estilos para el botón de paginación*/
+.pagination-button {
+    background-color: var(--azul-noche);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: var(--azul-acero);
+}
+
+.pagination-button.active {
+    background-color: var(--azul-acero);
+    color: var(--blanco);
+}
+/*Estilos para el formulario del modal*/
+.formulario-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(92, 107, 122, 0.2);
+}
+
+.formulario-registrar-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 3rem;
+}
+
+.formulario-subcontainer{
+    background-color: var(--blanco);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 50rem;
+    height: 50rem;
+}
+
+.campo-formulario{
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    gap:.5rem;
+}
+
+.label{
+    font-size: 1.4rem;
+    color: var(--gris-acero);
+}
+
+.label-input{
+    font-size: 1.4rem;
+    color: var(--gris-acero);
+    padding: .5rem;
+}
+
+
+

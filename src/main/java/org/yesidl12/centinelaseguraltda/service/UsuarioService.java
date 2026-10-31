@@ -39,8 +39,10 @@ public class UsuarioService {
         .documento(command.documento())
         .nombre(command.nombre() + " " + command.apellido())
         .correo(command.email())
-        .rol(Rol.valueOf(command.rol()))
+        .rol(Rol.valueOf(command.rol().toUpperCase()))
+        .activo(true)
         .passwordHash(passwordEncoder.encode(command.password()))
+        .debeCambiarPassword(true)
         .build();
         
         
@@ -111,6 +113,7 @@ public class UsuarioService {
         return usuario;
     }
 
+    // TODO => Restringir que un admin se puede elminar a el mismo
     public void eliminarUsuario(String documento, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         
