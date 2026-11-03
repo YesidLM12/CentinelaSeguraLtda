@@ -12,7 +12,7 @@
 <body>
     <div class="container-usuarios-lista">
         <section>
-            <div th:replace="~{fragments/navbar :: navbar}"></div>
+            <div th:replace="~{fragments/fragmentos :: navbar}"></div>
         </section>
 
         <main class="container-tabla-usuarios">
@@ -48,8 +48,21 @@
                         <td th:text="${usuario.rol()}"></td>
                         <td th:text="${usuario.activo()}"></td>
                         <td>
-                            <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEditar(${usuario.id})" class="btn btn-accion">Editar</button>
-                            <button sec:authorize="hasRole('ADMINISTRADOR')" th:onclick="abrirModalEliminar(${usuario.id})" class="btn btn-accion">Eliminar</button>
+
+                            <div class="action-button">
+                                <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                    <a th:href="@{/usuarios/actualizar/{id}(id=${usuario.documento()})}">Editar</a>
+                                </button>
+
+                                <form th:action="@{/usuarios/eliminar/{documento}(documento=${usuario.documento})}"
+                                method="post">
+
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn btn-accion">
+                                    Eliminar
+                                </button>
+                            </form>
+                            </div>
                         </td>
                     </tr>
                     </tbody>

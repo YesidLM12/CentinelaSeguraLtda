@@ -263,6 +263,11 @@ label {
     background-color: var(--oro);
 }
 
+.action-button {
+    display: flex;
+    gap: 1rem;
+}
+
 /*Estilos para el navbar*/
 .navbar-container {
     display: flex;

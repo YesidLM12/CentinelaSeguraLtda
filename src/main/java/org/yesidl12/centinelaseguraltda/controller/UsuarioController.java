@@ -70,8 +70,8 @@ public class UsuarioController {
         @ModelAttribute UsuarioCommand command, 
         Model model, Authentication authentication
         ){
-        model.addAttribute("usuario", usuarioService.actualizarUsuario(documento,command, authentication));
-        return "usuarios/actualizar";
+        usuarioService.actualizarUsuario(documento,command, authentication);
+        return "redirect:/usuarios";
     }
 
     @GetMapping("/actualizar/{documento}")

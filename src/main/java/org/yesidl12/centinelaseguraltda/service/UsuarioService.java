@@ -124,7 +124,7 @@ public class UsuarioService {
             throw new UsuarioConflictException("El usuario no existe");
         }
 
-        usuarioRepository.deleteByDocumento(documento);
+        usuarioRepository.delete(usuarioRepository.findByDocumento(documento).get());
         log.info("Usuario eliminado por {}: {}", usuarioLogueado, documento);
     }
 }
