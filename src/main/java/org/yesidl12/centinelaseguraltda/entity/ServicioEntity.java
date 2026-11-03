@@ -60,5 +60,5 @@ public class ServicioEntity extends AuditableEntity {
    private int duracion_dias;
 
    @Column(name = "activo", nullable = false)
-   private Boolean activo = true;
+   private boolean activo = true;
 }
