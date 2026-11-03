@@ -56,14 +56,14 @@ public class UsuarioEntity extends AuditableEntity {
    @Column(name = "rol", nullable = false)
    private Rol rol;
 
-   @Column(name = "activo", nullable = false)
-   private Boolean activo = true;
+   @Column(name = "activo", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+   private boolean activo;
 
-   @Column(name = "debe_cambiar_password", nullable = false)
-   private Boolean debeCambiarPassword = true;
+   @Column(name = "debe_cambiar_password", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
+   private boolean debeCambiarPassword;
 
-   @Column(name = "intentos_fallidos", nullable = false)
-   private int  intentosFallidos = 0;
+   @Column(name = "intentos_fallidos", nullable = false, columnDefinition = "INT DEFAULT 0")
+   private int  intentosFallidos;
 
    @Column(name = "bloqueado_hasta")
    private LocalDateTime bloqueadoHasta;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:xsi="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Actualizar Usuario</title>
+</head>
+<body>
+    <div  class="formulario-container">
+        
+        <div class="formulario-subcontainer">
+            
+            <form  th:action="@{/usuarios/actualizar/{documento}(documento=${usuario.documento})}" 
+            method="post"
+            class="formulario-registrar-usuario">
+            
+                 <h1>Actualizar Usuario</h1>
+                
+
+                <div class="campo-formulario">
+                    <label for="nombre" class="label">Nombre</label>
+                    <input type="text" class="label-input" id="nombre" name="nombre">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="apellido" class="label">Apellido</label>
+                    <input type="text" class="label-input" id="apellido" name="apellido">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="documento" class="label">Documento</label>
+                    <input type="text" class="label-input" id="documento" name="documento">
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="email" class="label">Correo electrónico</label>
+                    <input type="email" class="label-input" id="email" name="email">
+                </div>
+                
+                <div class="campo-formulario">
+                    <label for="password" class="label">Contraseña</label>
+                    <input type="password" class="label-input" id="password" name="password">
+                </div>
+                
+                <div class="campo-formulario">
+                    <label for="rol" class="label">Rol</label>
+                    <input type="text" class="label-input" id="rol" name="rol">
+                </div>
+
+                <button type="submit" class="btn-login">Guardar</button>
+        </form>
+    </div>
+    </div>
+    
+</body>
+</html>

@@ -17,7 +17,7 @@
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+/*Configuración general*/
 html {
     font-size: 62.5%;
 }
@@ -32,7 +32,7 @@ p {
     font-size: 1.6rem;
 }
 
-
+/*Layout Login*/
 .container {
     display: flex;
     justify-content: center;
@@ -100,7 +100,7 @@ p {
 
 .btn-login {
     background-color: var(--ambar);
-    color: var(--azul-acero);
+    color: black;
     border: none;
     padding: 1rem;
     border-radius: var(--border-radius);
@@ -182,3 +182,249 @@ label {
     font-size: 1.4rem;
     text-align: center;
 }
+
+/*Estilos para la tabla de usuarios*/
+.container-usuarios-lista {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(92, 107, 122, 0.2);
+    
+}
+
+.container-tabla-usuarios {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 3rem;
+}
+
+.container-tabla-usuarios a{
+    text-decoration: none;
+    color: black;
+}
+
+.container-titulo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 1rem;
+    align-items: flex-start;
+}
+
+.container-titulo h1{
+    font-size: 2.4rem;
+    color: var(--azul-noche);
+}
+
+.tabla-container{
+    width: 100%;
+    background-color: var(--blanco);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+}
+
+#tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+
+
+#tabla-usuarios th,
+#tabla-usuarios td {
+    padding: 1rem;
+    text-align: left;
+    /* border-bottom: 1px solid var(--gris-acero); */
+    font-size: 1.6rem;
+}
+
+#tabla-usuarios th {
+    color: var(--azul-noche);
+    font-weight: bold;
+}
+
+
+.btn-accion {
+    background-color: transparent;
+    border: none;
+    color: var(--azul-noche);
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
+.btn-accion:hover {
+    background-color: var(--oro);
+}
+
+.action-button {
+    display: flex;
+    gap: 1rem;
+}
+
+/*Estilos para el navbar*/
+.navbar-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--azul-noche);
+    color: var(--blanco);
+    box-shadow: var(--box-shadow);
+    height: 100vh;
+    width: auto;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.navbar-logo img {
+    height: 40px;
+}
+
+.navbar-logo-text {
+    font-size: 2rem;
+}
+
+.navbar-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.navbar-link {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1.6rem;
+    transition: color 0.3s;
+}
+
+.navbar-link:hover {
+    color: var(--ambar);
+}
+
+.navbar-link.active {
+    color: var(--azul-acero);
+    outline: 2px solid var(--azul-acero);
+    outline-offset: 2px;
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.navbar-logout-btn {
+    background-color: var(--error-color);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+}
+
+.navbar-logout-btn:hover {
+    background-color: #c82333;
+}
+
+.navbar_user{
+    margin-bottom: 2rem;
+}
+
+.navbar_user span{
+    font-size: 1.6rem;
+}
+
+.pagination-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.pagination-container p{
+    font-size: 1.6rem;
+    color: var(--gris-acero);
+}
+
+/*Estilos para el botón de paginación*/
+.pagination-button {
+    background-color: var(--azul-noche);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:hover {
+    background-color: var(--azul-acero);
+}
+
+.pagination-button.active {
+    background-color: var(--azul-acero);
+    color: var(--blanco);
+}
+/*Estilos para el formulario del modal*/
+.formulario-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgba(92, 107, 122, 0.2);
+}
+
+.formulario-registrar-usuario{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 3rem;
+}
+
+.formulario-subcontainer{
+    background-color: var(--blanco);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    width: 50rem;
+    height: 50rem;
+}
+
+.campo-formulario{
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    gap:.5rem;
+}
+
+.label{
+    font-size: 1.4rem;
+    color: var(--gris-acero);
+}
+
+.label-input{
+    font-size: 1.4rem;
+    color: var(--gris-acero);
+    padding: .5rem;
+}
+
+
+
