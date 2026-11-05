@@ -25,7 +25,8 @@ public class DataInitializer implements CommandLineRunner {
         }   
 
         var superUsuario = UsuarioEntity.builder()
-                .nombre("Super Usuario")
+                .nombre("Super")
+                .apellido("Usuario")
                 .documento("00000000")
                 .correo("superusuario@centinela.com")
                 .passwordHash(passwordEncoder.encode("password"))

@@ -45,8 +45,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 </div>
                 
                 <div class="campo-formulario">
-                    <label for="rol" class="label">Rol</label>
-                    <input type="text" class="label-input" id="rol" name="rol">
+                    <select class="label-input" id="rol" name="rol">
+                        <option value="ADMINISTRADOR">Administrador</option>
+                        <option value="COORD_OPERACIONES">Coordinador de Operaciones</option>
+                        <option value="COORD_ENTRENAMIENTO">Coordinador de Entrenamiento</option>
+                        <option value="ASESOR_COMERCIAL">Asesor Comercial</option>
+                        <option value="CONTADOR">Contador</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-login">Guardar</button>

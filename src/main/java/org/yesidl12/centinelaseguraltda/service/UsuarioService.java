@@ -37,8 +37,9 @@ public class UsuarioService {
 
         var usuarioNuevo = UsuarioEntity.builder()
         .documento(command.documento())
-        .nombre(command.nombre() + " " + command.apellido())
-        .correo(command.email())
+        .nombre(command.nombre())
+        .apellido(command.apellido())
+        .correo(command.correo())
         .rol(Rol.valueOf(command.rol().toUpperCase()))
         .activo(true)
         .passwordHash(passwordEncoder.encode(command.password()))
@@ -57,17 +58,23 @@ public class UsuarioService {
         return usuarios.map(u -> new UsuarioResponse(
             u.getDocumento(),
             u.getNombre(),
+            u.getApellido(),
             u.getCorreo(),
             u.getRol().name(),
             u.isActivo()
         ));
     }
 
-    public UsuarioResponse obtenerUsuario(String documento) {
+    public UsuarioEntity obtenerUsuario(String documento) {
+        return usuarioRepository.findByDocumento(documento).get();
+    }
+
+    public UsuarioResponse obtenerUsuarioResponse(String documento) {
         UsuarioEntity usuario = usuarioRepository.findByDocumento(documento).get();
         return new UsuarioResponse(
             usuario.getDocumento(),
             usuario.getNombre(),
+            usuario.getApellido(),
             usuario.getCorreo(),
             usuario.getRol().name(),
             usuario.isActivo()
@@ -85,10 +92,10 @@ public class UsuarioService {
         }
 
         UsuarioEntity usuario = usuarioRepository.findByDocumento(documento).get();
-        usuario.setNombre(command.nombre() + " " + command.apellido());
-        usuario.setCorreo(command.email());
-        usuario.setRol(Rol.valueOf(command.rol()));
-        usuario.setPasswordHash(passwordEncoder.encode(command.password()));
+        usuario.setNombre(command.nombre() != null ? command.nombre() : usuario.getNombre());
+        usuario.setApellido(command.apellido() != null ? command.apellido() : usuario.getApellido());
+        usuario.setCorreo(command.correo() != null ? command.correo() : usuario.getCorreo());
+        usuario.setRol(command.rol() != null ? Rol.valueOf(command.rol()) : usuario.getRol());
         usuarioRepository.save(usuario);
         
         log.info("Usuario actualizado por {}: {}", usuarioLogueado, documento);
@@ -115,7 +122,7 @@ public class UsuarioService {
 
     // TODO => Restringir que un admin se puede elminar a el mismo
     public void eliminarUsuario(String documento, Authentication authentication) {
-        String usuarioLogueado = authentication.getName();
+        String usuarioLogueado = authentication.getPrincipal().getClass().getName();
         
         boolean existeUsuario = usuarioRepository.findByDocumento(documento).isPresent();
         
@@ -124,7 +131,14 @@ public class UsuarioService {
             throw new UsuarioConflictException("El usuario no existe");
         }
 
-        usuarioRepository.delete(usuarioRepository.findByDocumento(documento).get());
+        UsuarioEntity usuario = usuarioRepository.findByDocumento(documento).get();
+
+        if (usuario.getRol() == Rol.ADMINISTRADOR) {
+            log.warn("Intento de eliminar usuario admin por {}: {}", usuarioLogueado, documento);
+            throw new UsuarioConflictException("No se puede eliminar un usuario admin");
+        }
+
+        usuarioRepository.delete(usuario);
         log.info("Usuario eliminado por {}: {}", usuarioLogueado, documento);
     }
 }
