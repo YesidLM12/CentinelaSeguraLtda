@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yesidl12.centinelaseguraltda.dto.UsuarioCommand;
 import org.yesidl12.centinelaseguraltda.dto.UsuarioResponse;
 import org.yesidl12.centinelaseguraltda.entity.UsuarioEntity;
@@ -39,7 +40,7 @@ public class UsuarioController {
 
     @GetMapping("/crear")
     public String mostrarFormularioCreacionUsuario(Model model){
-        model.addAttribute("usuario", new UsuarioEntity());
+        model.addAttribute("usuario", new UsuarioCommand());
         return "usuarios/formulario";
     }
 
@@ -59,18 +60,20 @@ public class UsuarioController {
         @PathVariable String documento,
         Model model
     ) {
-        UsuarioResponse usuario = usuarioService.obtenerUsuario(documento);
+        UsuarioResponse usuario = usuarioService.obtenerUsuarioResponse(documento);
         model.addAttribute("usuario", usuario);
         return "usuarios/detalle";
     }
 
-    @PatchMapping("/actualizar/{documento}")
+    @PostMapping("/actualizar/{documento}")
     public String actualizarUsuario (
         @PathVariable String documento,
         @ModelAttribute UsuarioCommand command, 
-        Model model, Authentication authentication
+        RedirectAttributes redirectAttributes,
+        Authentication authentication
         ){
         usuarioService.actualizarUsuario(documento,command, authentication);
+        redirectAttributes.addFlashAttribute("mensaje", "Usuario actualizado correctamente");
         return "redirect:/usuarios";
     }
 
@@ -79,7 +82,7 @@ public class UsuarioController {
         @PathVariable String documento,
         Model model
     ) {
-        UsuarioResponse usuario = usuarioService.obtenerUsuario(documento);
+        UsuarioEntity usuario = usuarioService.obtenerUsuario(documento);
         model.addAttribute("usuario", usuario);
         return "usuarios/actualizar";
     }

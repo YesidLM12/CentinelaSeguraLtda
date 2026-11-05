@@ -1,6 +1,7 @@
 CREATE TABLE usuario(
     usuario_id BIGINT GENERATED ALWAYS AS IDENTITY NOT NULL,
     nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
     documento VARCHAR(15) NOT NULL,
     Correo VARCHAR(120) NOT NULL,
     password_hash VARCHAR(100) NOT NULL,

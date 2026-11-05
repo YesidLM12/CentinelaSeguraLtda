@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:xsi="http://www.thymeleaf.org" 
+<html lang="es" xmlns:th="http://www.thymeleaf.org" 
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -12,41 +12,49 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         
         <div class="formulario-subcontainer">
             
-            <form  th:action="@{/usuarios/actualizar/{documento}(documento=${usuario.documento})}" 
-            method="post"
-            class="formulario-registrar-usuario">
+            <form   th:object="${usuario}"
+                    th:action="@{/usuarios/actualizar/{documento}(documento=${usuario.documento})}" 
+                    method="post"
+                    class="formulario-registrar-usuario">
             
                  <h1>Actualizar Usuario</h1>
                 
 
                 <div class="campo-formulario">
                     <label for="nombre" class="label">Nombre</label>
-                    <input type="text" class="label-input" id="nombre" name="nombre">
+                    <input  type="text" 
+                            class="label-input" 
+                            id="nombre" 
+                            name="nombre" 
+                            th:field="*{nombre}">
                 </div>
 
                 <div class="campo-formulario">
                     <label for="apellido" class="label">Apellido</label>
-                    <input type="text" class="label-input" id="apellido" name="apellido">
+                    <input type="text" class="label-input" id="apellido" name="apellido" th:field="*{apellido}">
                 </div>
 
                 <div class="campo-formulario">
                     <label for="documento" class="label">Documento</label>
-                    <input type="text" class="label-input" id="documento" name="documento">
+                    <input type="text" class="label-input" id="documento" name="documento" th:field="*{documento}">
                 </div>
 
                 <div class="campo-formulario">
                     <label for="email" class="label">Correo electrónico</label>
-                    <input type="email" class="label-input" id="email" name="email">
+                    <input type="email" class="label-input" id="email" name="email" th:field="*{correo}">
                 </div>
-                
-                <div class="campo-formulario">
-                    <label for="password" class="label">Contraseña</label>
-                    <input type="password" class="label-input" id="password" name="password">
-                </div>
+        
                 
                 <div class="campo-formulario">
                     <label for="rol" class="label">Rol</label>
-                    <input type="text" class="label-input" id="rol" name="rol">
+                    <select class="label-input" id="rol" name="rol" th:field="*{rol}">
+                        <option value="">Seleccione un rol</option>
+                        <option value="ADMINISTRADOR">Administrador</option>
+                        <option value="COORD_OPERACIONES">Coordinador de Operaciones</option>
+                        <option value="COORD_ENTRENAMIENTO">Coordinador de Entrenamiento</option>
+                        <option value="ASESOR_COMERCIAL">Asesor Comercial</option>
+                        <option value="CONTADOR">Contador</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-login">Guardar</button>
