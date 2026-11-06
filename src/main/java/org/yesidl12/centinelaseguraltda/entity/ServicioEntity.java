@@ -2,10 +2,13 @@ package org.yesidl12.centinelaseguraltda.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import org.yesidl12.centinelaseguraltda.enums.Estado_Contratacion;
 import org.yesidl12.centinelaseguraltda.enums.Medio;
 import org.yesidl12.centinelaseguraltda.enums.Modalidad;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -60,5 +63,12 @@ public class ServicioEntity extends AuditableEntity {
    private int duracion_dias;
 
    @Column(name = "activo", nullable = false)
-   private boolean activo = true;
+   private boolean activo;
+
+   @OneToMany(mappedBy = "servicio")
+   private List<ContratacionEntity> contrataciones;
+
+   public boolean tieneContratacionesActivas() {
+      return contrataciones.stream().anyMatch(contratacion -> contratacion.getEstado() == Estado_Contratacion.ACTIVA);
+   }
 }

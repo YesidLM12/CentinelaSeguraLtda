@@ -16,10 +16,10 @@ public record ServicioCommand(
     String ubicacion,
     @NotEmpty(message = "La tarifa es requerida")
     @Min(value = 0, message = "La tarifa debe ser mayor o igual a 0")
-    double tarifa,
+    Double tarifa,
     @NotEmpty(message = "La duracion es requerida")
     @Min(value = 1, message = "La duracion debe ser mayor o igual a 1")
-    int duracionDias
+    Integer duracionDias
 ) {
 
 }

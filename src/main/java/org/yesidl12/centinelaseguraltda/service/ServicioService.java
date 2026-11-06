@@ -30,7 +30,6 @@ public class ServicioService {
 
     public ServicioEntity crearServicio(ServicioCommand command, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
-        
         boolean existeServicio = servicioRepository.findByNombre(command.nombre()).isPresent();
         
         if (existeServicio) {
@@ -80,20 +79,19 @@ public class ServicioService {
         }
 
         ServicioEntity servicio = servicioRepository.findById(id).get();
-        servicio.setNombre(command.nombre());
-        servicio.setModalidad(Modalidad.valueOf(command.modalidad().toUpperCase()));
-        servicio.setMedio(Medio.valueOf(command.medio().toUpperCase()));
-        servicio.setDescripcion(command.descripcion());
-        servicio.setUbicacion(command.ubicacion());
-        servicio.setTarifa(BigDecimal.valueOf(command.tarifa()));
-        servicio.setDuracion_dias(command.duracionDias());
+        servicio.setNombre(command.nombre() != null ? command.nombre() : servicio.getNombre());
+        servicio.setModalidad(command.modalidad() != null ? Modalidad.valueOf(command.modalidad().toUpperCase()) : servicio.getModalidad());
+        servicio.setMedio(command.medio() != null ? Medio.valueOf(command.medio().toUpperCase()) : servicio.getMedio());
+        servicio.setDescripcion(command.descripcion() != null ? command.descripcion() : servicio.getDescripcion());
+        servicio.setUbicacion(command.ubicacion() != null ? command.ubicacion() : servicio.getUbicacion());
+        servicio.setTarifa(command.tarifa() != null ? BigDecimal.valueOf(command.tarifa()) : servicio.getTarifa());
+        servicio.setDuracion_dias(command.duracionDias() != null ? command.duracionDias() : servicio.getDuracion_dias());
         servicio.setActivo(true);
         
         log.info("Modificando servicio: {} por usuario: {}", command.nombre(), usuarioLogueado);
         servicioRepository.save(servicio);
     }
 
-    // TODO => Restringir que se puede eliminar un servicio si tiene contratos asociados
     public void eliminarServicio(Long id, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         
@@ -105,10 +103,32 @@ public class ServicioService {
         }
 
         ServicioEntity servicio = servicioRepository.findById(id).get();
-        servicio.setActivo(false);
-        servicioRepository.save(servicio);
         
-        log.info("Servicio desactivado por usuario: {}", usuarioLogueado);
+        if (servicio.tieneContrataciones()) {
+            log.warn("Intento de desactivar servicio con contrataciones por usuario: {}", usuarioLogueado);
+            desactivarServicio(id, authentication);
+            throw new ServicioConflictException("El servicio tiene contrataciones asociadas");
+        }
+
+        servicioRepository.delete(servicio);
+        
+        log.info("Servicio eliminado por usuario: {}", usuarioLogueado);
+    }
+
+    public void desactivarServicio(Long id, Authentication authentication) {
+        String usuarioLogueado = authentication.getName();
+        
+        ServicioEntity servicio = servicioRepository.findById(id).get();
+        
+        if (servicio == null) {
+            log.warn("Intento de desactivar servicio inexistente por usuario: {}", usuarioLogueado);
+            throw new ServicioConflictException("El servicio no existe");
+        }
+        
+        servicio.setActivo(false);
+        
+        log.info("Desactivando servicio: {} por usuario: {}", servicio.getNombre(), usuarioLogueado);
+        servicioRepository.save(servicio);
     }
 
     public ServicioResponse obtenerServicioDetallado(Long id) {
