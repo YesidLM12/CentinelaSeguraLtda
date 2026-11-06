@@ -104,7 +104,7 @@ public class ServicioService {
 
         ServicioEntity servicio = servicioRepository.findById(id).get();
         
-        if (servicio.tieneContrataciones()) {
+        if (servicio.tieneContratacionesActivas()) {
             log.warn("Intento de desactivar servicio con contrataciones por usuario: {}", usuarioLogueado);
             desactivarServicio(id, authentication);
             throw new ServicioConflictException("El servicio tiene contrataciones asociadas");
