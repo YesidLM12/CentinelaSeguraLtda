@@ -396,7 +396,7 @@ label {
     background-color: rgba(92, 107, 122, 0.2);
 }
 
-.formulario-registrar-usuario{
+.formulario-registrar-usuario, .formulario-registrar-servicio {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -408,7 +408,7 @@ label {
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: 50rem;
-    height: 50rem;
+    height: auto;
 }
 
 .campo-formulario{
