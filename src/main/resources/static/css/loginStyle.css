@@ -224,32 +224,35 @@ label {
 }
 
 .tabla-container{
+    max-height: auto;
+    overflow-y: auto;
+    overflow-x: auto;
     width: 100%;
     background-color: var(--blanco);
     border-radius: var(--border-radius);
     padding: 1rem;
 }
 
-#tabla-usuarios , #tabla-servicios{
+table{
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
 }
 
 
 
-#tabla-usuarios th,
-#tabla-usuarios td,
-#tabla-servicios th,
-#tabla-servicios td {
+th,td{
     padding: 1rem;
     text-align: left;
     /* border-bottom: 1px solid var(--gris-acero); */
     font-size: 1.6rem;
 }
 
-#tabla-usuarios th {
-    color: var(--azul-noche);
+thead th{
+    position: sticky;
+    top: 0;
+    background-color: var(--azul-noche);
+    color: var(--blanco);
+    z-index: 1;
     font-weight: bold;
 }
 
@@ -359,6 +362,7 @@ label {
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+    gap: 1rem;
 }
 
 .pagination-container p{
@@ -368,7 +372,7 @@ label {
 
 /*Estilos para el botón de paginación*/
 .pagination-button {
-    background-color: var(--azul-noche);
+    background-color: none;
     color: var(--blanco);
     border: none;
     padding: 0.5rem 1rem;
@@ -378,14 +382,6 @@ label {
     transition: background-color 0.3s;
 }
 
-.pagination-button:hover {
-    background-color: var(--azul-acero);
-}
-
-.pagination-button.active {
-    background-color: var(--azul-acero);
-    color: var(--blanco);
-}
 /*Estilos para el formulario del modal*/
 .formulario-container{
     display: flex;

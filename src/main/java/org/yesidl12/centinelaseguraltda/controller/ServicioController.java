@@ -43,7 +43,7 @@ public class ServicioController {
     @GetMapping
     public String listarServicios(
         @RequestParam(defaultValue = "0") int page, 
-        @RequestParam(defaultValue = "10") int size, 
+        @RequestParam(defaultValue = "5") int size, 
         FiltroServicioDto filtro, 
         Model model) {
         Page<ServicioResponse> servicios = servicioService.listarServiciosconFiltros(page, size, filtro);
