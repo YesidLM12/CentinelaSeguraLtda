@@ -57,6 +57,7 @@ public class ServicioService {
         Page<ServicioEntity> servicios = servicioRepository.findAll(ServicioSpecs.filtrar(filtro), pageable);
 
         return servicios.map(s -> new ServicioResponse(
+            s.getId(),
             s.getNombre(),
             s.getModalidad().name(),
             s.getMedio().name(),

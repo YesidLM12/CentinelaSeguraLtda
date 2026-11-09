@@ -1,6 +1,7 @@
 package org.yesidl12.centinelaseguraltda.dto;
 
 public record ServicioResponse(
+    Long id,
     String nombre,
     String modalidad,
     String medio,
