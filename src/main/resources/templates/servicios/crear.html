@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es"
+    xmlns:xsi="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Crear Servicio</title>
+</head>
+<body>
+    <div class="formulario-container">
+        <div class="formulario-subcontainer">
+            <form 
+            th:action="@{/servicios}" 
+            method="post" 
+            class="formulario-registrar-servicio">
+                <h1>Crear Servicio</h1>
+
+                <div class="campo-formulario">
+                    <label class="label">Nombre del servicio</label>
+                    <input class="label-input" type="text" name="nombre" placeholder="Nombre del servicio" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Modalidad</label>
+                    <!--TODO => Reemplazar por un select con los valores de la enumeración Modalidad-->
+                    <select class="label-input" name="modalidad" required>
+                        <option value="">Seleccione una modalidad</option>
+                        <option value="VIGILANCIA_FIJA">Vigilancia Fija</option>
+                        <option value="PATRULLAJE_MOVIL">Patrullaje Móvil</option>
+                        <option value="ESCOLTA">Escolta</option>
+                        <option value="MONITOREO">Monitoreo</option>
+                    </select>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Tarifa</label>
+                    <input class="label-input" type="number" name="tarifa" placeholder="Tarifa" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Descripcion</label>
+                    <input class="label-input" type="text" name="descripcion" placeholder="Descripcion" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Medio</label>
+                    <select class="label-input" name="medio" required>
+                        <option value="">Seleccione un medio</option>
+                        <option value="ARMADO">Armado</option>
+                        <option value="SIN_ARMAS">Sin Armas</option>
+                        <option value="TECNOLOGICO">Tecnológico</option>
+                        <option value="CANINO">Canino</option>
+                    </select>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Duración (días)</label>
+                    <input class="label-input" type="number" name="duracion" placeholder="Duración en días" required>
+                </div>
+
+                <button type="submit" class="btn-login">Guardar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

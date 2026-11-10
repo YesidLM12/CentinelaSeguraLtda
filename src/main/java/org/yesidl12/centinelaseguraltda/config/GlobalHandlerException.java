@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.yesidl12.centinelaseguraltda.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.yesidl12.centinelaseguraltda.exception.ServicioConflictException;
+import org.yesidl12.centinelaseguraltda.exception.UsuarioConflictException;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
@@ -20,8 +22,8 @@ public class GlobalHandlerException {
     //     );
     // }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleUsuarioConflictException(RuntimeException e) {
+    @ExceptionHandler(UsuarioConflictException.class)
+    public ResponseEntity<ErrorResponse> handleUsuarioConflictException(UsuarioConflictException e) {
         return new ResponseEntity<>(
             new ErrorResponse(
                 java.time.LocalDateTime.now(),
@@ -30,7 +32,17 @@ public class GlobalHandlerException {
             ),
             HttpStatus.CONFLICT
         );
-
-        
     }   
+
+    @ExceptionHandler(ServicioConflictException.class)
+    public ResponseEntity<ErrorResponse> handleServicioConflictException(ServicioConflictException e) {
+        return new ResponseEntity<>(
+            new ErrorResponse(
+                java.time.LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                e.getMessage()
+            ),
+            HttpStatus.CONFLICT
+        );
+    }
 }
