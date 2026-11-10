@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div th:if="${param.error}" class="alerta alerta-error" id="errorpassword" role="alert">
+        <div th:if="${param.error}" class="alerta alerta-error" id="alertalogin" role="alert">
             Usuario o contraseña incorrectos
         </div>
         <div th:if="${param.logout}" class="alerta alerta-success" role="alert">
@@ -45,7 +45,7 @@
                             autofocus
                             required 
                             class="input-field">
-                            <span class="error-campo" id="errorusername"></span>
+                    <span class="error-campo" id="errorusername"></span>
                     </div>
 
                     <div class="input-group">
