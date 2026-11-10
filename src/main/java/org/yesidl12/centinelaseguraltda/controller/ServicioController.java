@@ -60,8 +60,8 @@ public class ServicioController {
     
     @GetMapping("/actualizar/{id}")
     public String mostrarFormularioActualizacionServicio(@PathVariable Long id,ServicioCommand servicioCommand, Authentication authentication, Model model) {
-        servicioService.modificarServicio(id, servicioCommand, authentication);
-        model.addAttribute("servicio", servicioCommand);
+        ServicioEntity servicio = servicioService.obtenerServicioPorId(id);
+        model.addAttribute("servicio", servicio);
         return "servicios/actualizar";
     }
 

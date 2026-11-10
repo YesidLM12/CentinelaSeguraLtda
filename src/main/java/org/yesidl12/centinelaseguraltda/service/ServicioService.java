@@ -69,7 +69,7 @@ public class ServicioService {
         ));
     }
 
-    public void modificarServicio(Long id, ServicioCommand command, Authentication authentication) {
+    public ServicioEntity modificarServicio(Long id, ServicioCommand command, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
         
         boolean existeServicio = servicioRepository.findById(id).isPresent();
@@ -90,7 +90,7 @@ public class ServicioService {
         servicio.setActivo(true);
         
         log.info("Modificando servicio: {} por usuario: {}", command.nombre(), usuarioLogueado);
-        servicioRepository.save(servicio);
+        return servicioRepository.save(servicio);
     }
 
     public void eliminarServicio(Long id, Authentication authentication) {
@@ -130,6 +130,10 @@ public class ServicioService {
         
         log.info("Desactivando servicio: {} por usuario: {}", servicio.getNombre(), usuarioLogueado);
         servicioRepository.save(servicio);
+    }
+
+    public ServicioEntity obtenerServicioPorId(Long id) {
+        return servicioRepository.findById(id).orElse(null);
     }
 
     public ServicioResponse obtenerServicioDetallado(Long id) {

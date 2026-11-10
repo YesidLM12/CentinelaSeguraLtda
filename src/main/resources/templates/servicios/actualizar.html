@@ -11,11 +11,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="formulario-container">
         <div class="formulario-subcontainer">
             <form th:action="@{/servicios/{id}(id=${servicio.id})}" method="post" class="formulario-registrar-servicio">
+
+                <input type="hidden" name="id" th:value="*{id}"/>
                 <h1>Actualizar Servicio</h1>
 
                 <div class="campo-formulario">
                     <label class="label">Nombre</label>
-                    <input type="text" class="input-label" name="nombre" />
+                    <input type="text" class="input-label" name="nombre" th:value="*{nombre}"/>
                 </div>
 
                 <div class="campo-formulario">
@@ -40,22 +42,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 
                 <div class="campo-formulario">
                     <label class="label">Descripción</label>
-                    <input type="text" class="input-label" name="descripcion" />
+                    <input type="text" class="input-label" name="descripcion" th:value="*{descripcion}" />
                 </div>
                 
                 <div class="campo-formulario">
                     <label class="label">Ubicación</label>
-                    <input type="text" class="input-label" name="ubicacion" />
+                    <input type="text" class="input-label" name="ubicacion" th:value="*{ubicacion}" />
                 </div>
                 
                 <div class="campo-formulario">
                     <label class="label">Tarifa</label>
-                    <input type="text" class="input-label" name="tarifa" />
+                    <input type="text" class="input-label" name="tarifa" th:value="*{tarifa}" />
                 </div>
                 
                 <div class="campo-formulario">
                     <label class="label">Duración (días)</label>
-                    <input type="text" class="input-label" name="duracionDias" />
+                    <input type="text" class="input-label" name="duracionDias" th:value="*{duracionDias}" />
                 </div>
                 
             </form>
