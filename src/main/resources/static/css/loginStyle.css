@@ -426,4 +426,49 @@ thead th{
 }
 
 
+* { box-sizing: border-box; }
 
+.filtros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.campo { display: flex; flex-direction: column; gap: .3rem; }
+.campo label { font-size: 1rem; color: var(--gris); }
+.campo input, .campo select {
+    padding: .55rem .6rem;
+    border: 1px solid #ccd5d0;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+.campo input:focus, .campo select:focus {
+    outline: 2px solid var(--verde-claro);
+    border-color: var(--verde);
+}
+
+.acciones {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: .8rem;
+    align-items: center;
+}
+button, .boton-secundario, .enlace {    
+    background-color: transparent;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.alerta { margin: 1.2rem 0; padding: 1rem; border-radius: 6px; }
+.alerta-error { background: #f8e3e3; color: var(--rojo); }
+.alerta-vacio { background: #fff7de; color: #6b5300; }
+
+.conteo { color: var(--gris); margin: 1.5rem 0 .8rem; }

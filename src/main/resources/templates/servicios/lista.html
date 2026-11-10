@@ -25,6 +25,48 @@
             </div>
 
             <div class="tabla-container">
+                <form th:object="${filtro}" th:action="@{/servicios}" method="get" class="filtros">
+
+                    <div class="campo">
+                        <label for="modalidad">Modalidad</label>
+                        <select id="modalidad" th:field="*{modalidad}">
+                            <option value="">Todas las modalidades</option>
+                            <option th:each="modalidad : ${T(org.yesidl12.centinelaseguraltda.enums.Modalidad).values()}" 
+                                    th:value="${modalidad}" 
+                                    th:text="${modalidad}"></option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="ubicacion">Ubicación</label>
+                        <input id="ubicacion" type="text" th:field="*{ubicacion}" placeholder="Ej. Laureles">
+                    </div>
+
+                    <div class="campo">
+                        <label for="tarifaMin">Tarifa mínima</label>
+                        <input id="tarifaMin" type="number" th:field="*{tarifaMin}" min="0" step="0.01">
+                    </div>
+
+                    <div class="campo">
+                        <label for="tarifaMax">Tarifa máxima</label>
+                        <input id="tarifaMax" type="number" th:field="*{tarifaMax}" min="0" step="0.01">
+                    </div>
+
+                    <div class="campo">
+                        <label for="duracionMin">Duración mín. (d)</label>
+                        <input id="duracionMin" type="number" th:field="*{duracionMin}" min="0">
+                    </div>
+
+                    <div class="campo">
+                        <label for="duracionMax">Duración máx. (d)</label>
+                        <input id="duracionMax" type="number" th:field="*{duracionMax}" min="0">
+                    </div>
+
+                    <div class="acciones">
+                        <button type="submit">Buscar</button>
+                        <a th:href="@{/servicios}" class="boton-secundario">Limpiar</a>
+                    </div>
+                </form>
                 <table id="tabla-servicios">
                     <thead>
                         <tr>
@@ -49,10 +91,8 @@
                             <td th:text="${servicio.activo()}"></td>
                             <td>
                                 <div class="action-button">
-                                    <button type="button" class="btn-accion"
-                                        th:attr="data-id=${servicio.id()}">Editar</button>
-                                    <button type="button" class="btn-accion"
-                                        th:attr="data-id=${servicio.id()}">Eliminar</button>
+                                    <button type="button" class="btn-editar" th:attr="data-id=${servicio.id()}">Editar</button>
+                                    <button type="button" class="btn-eliminar" th:attr="data-id=${servicio.id()}">Eliminar</button>
                                 </div>
                             </td>
                         </tr>
@@ -61,17 +101,9 @@
 
                 <div class="pagination-container">
                     <p th:if="${servicios.isEmpty()}">No hay servicios registrados</p>
-
-                    <a class="pagination-button" th:if="${servicios.hasPrevious()}"
-                        th:href="@{/servicios(page=${servicios.number - 1})}">Anterior</a>
-
-                    <p th:if="${!servicios.isEmpty()}">
-                        Mostrando página <span th:text="${servicios.number + 1}"></span>
-                        de <span th:text="${servicios.totalPages}"></span>
-                    </p>
-
-                    <a class="pagination-button" th:if="${servicios.hasNext()}"
-                        th:href="@{/servicios(page=${servicios.number + 1})}">Siguiente</a>
+                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number > 0}" th:onclick="cambiarPagina(${servicios.number - 1})">Anterior</button>
+                    <p th:if="${!servicios.isEmpty()}">mostrando pagina: <span th:text="${servicios.number + 1}"></span> de <span th:text="${servicios.totalPages}"></span></p>
+                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number < servicios.totalPages - 1}" th:onclick="cambiarPagina(${servicios.number + 1})">Siguiente</button>
                 </div>
             </div>
         </main>

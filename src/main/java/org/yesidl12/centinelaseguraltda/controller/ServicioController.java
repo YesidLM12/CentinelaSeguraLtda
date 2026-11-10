@@ -48,6 +48,7 @@ public class ServicioController {
         Model model) {
         Page<ServicioResponse> servicios = servicioService.listarServiciosconFiltros(page, size, filtro);
         model.addAttribute("servicios", servicios);
+        model.addAttribute("filtro", filtro != null ? filtro : new FiltroServicioDto(null, null, null, null, null, null));
         return "servicios/lista";
     }
 
