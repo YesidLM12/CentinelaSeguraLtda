@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:xsi="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Actualizar Servicio</title>
+</head>
+<body>
+    <div class="formulario-container">
+        <div class="formulario-subcontainer">
+            <form th:action="@{/servicios/{id}(id=${servicio.id})}" method="post" class="formulario-registrar-servicio">
+                <h1>Actualizar Servicio</h1>
+
+                <div class="campo-formulario">
+                    <label class="label">Nombre</label>
+                    <input type="text" class="input-label" name="nombre" />
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Modalidad</label>
+                    <select class="input-label" name="modalidad">
+                        <option value="">Seleccione una modalidad</option>
+                        <option th:each="modalidad : ${T(org.yesidl12.centinelaseguraltda.enums.Modalidad).values()}" 
+                                th:value="${modalidad}" 
+                                th:text="${modalidad}"></option>
+                    </select>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Medio</label>
+                    <select class="input-label" name="medio">
+                        <option value="">Seleccione un medio</option>
+                        <option th:each="medio : ${T(org.yesidl12.centinelaseguraltda.enums.Medio).values()}" 
+                                th:value="${medio}" 
+                                th:text="${medio}"></option>
+                    </select>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Descripción</label>
+                    <input type="text" class="input-label" name="descripcion" />
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Ubicación</label>
+                    <input type="text" class="input-label" name="ubicacion" />
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Tarifa</label>
+                    <input type="text" class="input-label" name="tarifa" />
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Duración (días)</label>
+                    <input type="text" class="input-label" name="duracionDias" />
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>

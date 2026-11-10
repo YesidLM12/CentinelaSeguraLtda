@@ -67,6 +67,7 @@
                         <a th:href="@{/servicios}" class="boton-secundario">Limpiar</a>
                     </div>
                 </form>
+
                 <table id="tabla-servicios">
                     <thead>
                         <tr>
@@ -91,10 +92,12 @@
                             <td th:text="${servicio.activo()}"></td>
                             <td>
                                 <div class="action-button">
-                                    <button type="button" class="btn-editar"
-                                        th:attr="data-id=${servicio.id()}">Editar</button>
-                                    <button type="button" class="btn-eliminar"
-                                        th:attr="data-id=${servicio.id()}">Eliminar</button>
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <a th:href="@{/servicios/actualizar/{id}(id=${servicio.id()})}">Editar</a>
+                                    </button>
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <a th:href="@{/servicios/{id}(id=${servicio.id()})}">Eliminar</a>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
