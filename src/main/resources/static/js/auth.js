@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const errorEmail = document.getElementById('errorusername');
     const errorPassword = document.getElementById('errorpassword');
-    const boton = document.getElementById('loginButton');
+    const alertaloggin = document.getElementById('alertaloggin');
+    const boton = document.getElementById('btnLogin');
     const togglePassword = document.getElementById('togglePassword');
 
     // Mostrar u ocultar la contraseña
@@ -19,6 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function mostrarError(campo, elementoMensaje, mensaje) {
        elementoMensaje.textContent = mensaje;
        campo.setAttribute('aria-invalid', mensaje ? 'true' : 'false');
+    }
+
+    function limpiarAlertaServidor() {
+       if (alertaloggin) {
+          alertaloggin.style.display = 'none';
+       }
     }
 
     // Quitar el error mientras el usuario corrige el campo
@@ -37,16 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
        if(!emailInput.value) {
           mostrarError(emailInput, errorEmail, 'El correo electrónico es obligatorio');
           valido = false;
+          limpiarAlertaServidor();
        }
 
        if(!passwordInput.value) {
           mostrarError(passwordInput, errorPassword, 'La contraseña es obligatoria');
           valido = false;
+          limpiarAlertaServidor();
        }
 
        if(!valido) {
           e.preventDefault();
-          (username.value ? passwordInput : emailInput).focus();
+          (emailInput.value ? passwordInput : emailInput).focus();
           return;
        }
 
@@ -55,4 +64,26 @@ document.addEventListener('DOMContentLoaded', () => {
        boton.textContent = 'Ingresando...';
     });
    
+    document.getElementById('errorpassword').textContent = '';
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const token = document.querySelector('meta[name="_csrf"]').content;
+    const header = document.querySelector('meta[name="_csrf_header"]').content;
+
+    const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { [header]: token },
+        body: new URLSearchParams(new FormData(form))
+    });
+
+    if (res.redirected) {
+        window.location.href = res.url;   // login correcto
+    } else {
+        const alerta = document.getElementById('alertaLogin');
+        alerta.textContent = 'Usuario o contraseña incorrectos';
+        alerta.style.display = 'block';
+    }
+});
 });

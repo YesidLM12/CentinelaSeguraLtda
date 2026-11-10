@@ -42,7 +42,7 @@ public class SecurityConfig {
                 })
                 .failureHandler((request, response, exception) -> {
                    System.out.println("LOGIN FALLIDO: " + exception.getClass().getSimpleName() + " - " + exception.getMessage());
-                   response.sendRedirect("/login?error=true");
+                   response.sendRedirect("/login?error");
                 })
                 .permitAll()
             )

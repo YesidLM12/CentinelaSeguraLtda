@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Lista de Servicios</title>
+</head>
+<body>
+    <div class="container-servicios-lista">
+        <section>
+            <div th:replace="~{fragments/fragmentos :: navbar}"></div>
+        </section>
+        <main class="container-tabla-servicios">
+            <div class="container-titulo">
+                <h1>Servicios</h1>
+
+                <button
+                type="button"
+                th:action="@{/servicios/crear}"
+                sec:authorize="hasRole('ADMINISTRADOR')"
+                class="btn-login">
+                <a th:href="@{/servicios/crear}">Nuevo Servicio</a>
+                </button>
+            </div>
+            
+            <div class="tabla-container">
+                <table id="tabla-servicios">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Modalidad</th>
+                            <th>Medio</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Duración (días)</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="servicio : ${servicios}">
+                            <td th:text="${servicio.nombre()}"></td>
+                            <td th:text="${servicio.modalidad()}"></td>
+                            <td th:text="${servicio.medio()}"></td>
+                            <td th:text="${servicio.descripcion()}"></td>
+                            <td th:text="${servicio.tarifa()}"></td>
+                            <td th:text="${servicio.duracionDias()}"></td>
+                            <td th:text="${servicio.activo()}"></td>
+                            <td>
+                                <div class="action-button">
+                                    <button type="button" class="btn-editar" th:attr="data-id=${servicio.id()}">Editar</button>
+                                    <button type="button" class="btn-eliminar" th:attr="data-id=${servicio.id()}">Eliminar</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    <p th:if="${servicios.isEmpty()}">No hay servicios registrados</p>
+                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number > 0}" th:onclick="cambiarPagina(${servicios.number - 1})">Anterior</button>
+                    <p th:if="${!servicios.isEmpty()}">mostrando pagina: <span th:text="${servicios.number + 1}"></span> de <span th:text="${servicios.totalPages}"></span></p>
+                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number < servicios.totalPages - 1}" th:onclick="cambiarPagina(${servicios.number + 1})">Siguiente</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+</body>
+</html>
