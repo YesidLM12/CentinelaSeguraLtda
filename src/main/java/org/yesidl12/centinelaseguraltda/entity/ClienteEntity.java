@@ -81,5 +81,5 @@ public class ClienteEntity extends AuditableEntity{
    private String observaciones;
 
    @Column(name = "activo", nullable = false)
-   private Boolean activo = true;
+   private Boolean activo;
 }
