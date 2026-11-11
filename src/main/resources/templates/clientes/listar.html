@@ -8,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
     <title>Lista de Clientes</title>
 </head>
+
 <body>
     <div class="container-clientes-lista">
         <section>
@@ -39,22 +40,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <tr th:each="cliente : ${clientes}">
-                            <td th:text="${cliente.tipo()}"></td>
-                            <td th:text="${cliente.nombreRazonSocial()}"></td>
-                            <td th:text="${cliente.representanteLegal()}"></td>
-                            <td th:text="${cliente.correo()}"></td>
-                            <td th:text="${cliente.telefono()}"></td>
-                            <td th:text="${cliente.direccion()}"></td>
-                            <td th:text="${cliente.ciudad()}"></td>
-                            <td th:text="${cliente.observaciones()}"></td>
+                        <tr th:each="cliente : ${clientes}">
+                            <td th:text="${cliente.getTipo()}"></td>
+                            <td th:text="${cliente.getNombreRazonSocial()}"></td>
+                            <td th:text="${cliente.getRepresentanteLegal()}"></td>
+                            <td th:text="${cliente.getCorreo()}"></td>
+                            <td th:text="${cliente.getTelefono()}"></td>
+                            <td th:text="${cliente.getDireccion()}"></td>
+                            <td th:text="${cliente.getCiudad()}"></td>
+                            <td th:text="${cliente.getObservaciones()}"></td>
                             <td>
                                 <div class="action-button">
                                     <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
-                                        <a th:href="@{/clientes/actualizar/{id}(id=${cliente.id()})}">Editar</a>
+                                        <a th:href="@{/clientes/actualizar/{id}(id=${cliente.getId()})}">Editar</a>
                                     </button>
                                     <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
-                                        <a th:href="@{/clientes/eliminar/{id}(id=${cliente.id()})}">Eliminar</a>
+                                        <form th:action="@{/clientes/{id}(id=${cliente.id})}" method="post"
+                                            onsubmit="return confirm('¿Eliminar este cliente?');">
+                                            <button type="submit" class="btn btn-peligro">Eliminar</button>
+                                        </form>
                                     </button>
                                 </div>
                             </td>
@@ -64,12 +68,21 @@
 
                 <div class="pagination-container">
                     <p th:if="${clientes.isEmpty()}">No hay clientes registrados</p>
-                    <button class="pagination-button" th:if="${!clientes.isEmpty() && clientes.number > 0}" th:onclick="cambiarPagina(${clientes.number - 1})">Anterior</button>
-                    <p th:if="${!clientes.isEmpty()}">mostrando pagina: <span th:text="${clientes.number + 1}"></span> de <span th:text="${clientes.totalPages}"></span></p>
-                    <button class="pagination-button" th:if="${!clientes.isEmpty() && clientes.number < clientes.totalPages - 1}" th:onclick="cambiarPagina(${clientes.number + 1})">Siguiente</button>
+
+                    <a class="pagination-button" th:if="${clientes.hasPrevious()}"
+                        th:href="@{/clientes(page=${clientes.number - 1})}">Anterior</a>
+
+                    <p th:if="${!clientes.isEmpty()}">
+                        Mostrando página <span th:text="${clientes.number + 1}"></span>
+                        de <span th:text="${clientes.totalPages}"></span>
+                    </p>
+
+                    <a class="pagination-button" th:if="${clientes.hasNext()}"
+                        th:href="@{/clientes(page=${clientes.number + 1})}">Siguiente</a>
                 </div>
             </div>
         </main>
     </div>
 </body>
+
 </html>

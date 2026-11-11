@@ -74,13 +74,13 @@ public class ServicioController {
         return "redirect:/servicios";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String eliminarServicio(@PathVariable Long id, Authentication authentication) {
         servicioService.eliminarServicio(id, authentication);
         return "redirect:/servicios";
     }
 
-    @GetMapping("/eliminar/{id}")
+    @PostMapping("/eliminar/{id}")
     public String mostrarFormularioEliminacionServicio(@PathVariable Long id, Model model, Authentication authentication) {
         servicioService.eliminarServicio(id, authentication);
         model.addAttribute("servicio", id);

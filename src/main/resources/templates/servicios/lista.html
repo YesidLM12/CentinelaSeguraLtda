@@ -31,9 +31,9 @@
                         <label for="modalidad">Modalidad</label>
                         <select id="modalidad" th:field="*{modalidad}">
                             <option value="">Todas las modalidades</option>
-                            <option th:each="modalidad : ${T(org.yesidl12.centinelaseguraltda.enums.Modalidad).values()}" 
-                                    th:value="${modalidad}" 
-                                    th:text="${modalidad}"></option>
+                            <option
+                                th:each="modalidad : ${T(org.yesidl12.centinelaseguraltda.enums.Modalidad).values()}"
+                                th:value="${modalidad}" th:text="${modalidad}"></option>
                         </select>
                     </div>
 
@@ -96,7 +96,10 @@
                                         <a th:href="@{/servicios/actualizar/{id}(id=${servicio.id()})}">Editar</a>
                                     </button>
                                     <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
-                                        <a th:href="@{/servicios/{id}(id=${servicio.id()})}">Eliminar</a>
+                                        <form th:action="@{/servicios/{id}(id=${servicio.id()})}" method="post"
+                                            onsubmit="return confirm('¿Eliminar este servicio?');">
+                                            <button type="submit" class="btn btn-peligro">Eliminar</button>
+                                        </form>
                                     </button>
                                 </div>
                             </td>
@@ -106,9 +109,17 @@
 
                 <div class="pagination-container">
                     <p th:if="${servicios.isEmpty()}">No hay servicios registrados</p>
-                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number > 0}" th:onclick="cambiarPagina(${servicios.number - 1})">Anterior</button>
-                    <p th:if="${!servicios.isEmpty()}">mostrando pagina: <span th:text="${servicios.number + 1}"></span> de <span th:text="${servicios.totalPages}"></span></p>
-                    <button class="pagination-button" th:if="${!servicios.isEmpty() && servicios.number < servicios.totalPages - 1}" th:onclick="cambiarPagina(${servicios.number + 1})">Siguiente</button>
+
+                    <a class="pagination-button" th:if="${servicios.hasPrevious()}"
+                        th:href="@{/servicios(page=${servicios.number - 1})}">Anterior</a>
+
+                    <p th:if="${!servicios.isEmpty()}">
+                        Mostrando página <span th:text="${servicios.number + 1}"></span>
+                        de <span th:text="${servicios.totalPages}"></span>
+                    </p>
+
+                    <a class="pagination-button" th:if="${servicios.hasNext()}"
+                        th:href="@{/servicios(page=${servicios.number + 1})}">Siguiente</a>
                 </div>
             </div>
         </main>

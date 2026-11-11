@@ -49,19 +49,9 @@ public class ClienteService {
         log.info("Cliente creado exitosamente por {}: {}", usuarioLogueado, cliente.documento());
     }   
 
-    public Page<Clientecommand> listarClientes(int page, int size) {
+    public Page<ClienteEntity> listarClientes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return clienteRepository.findAll(pageable).map(cliente -> new Clientecommand(
-            cliente.getTipo().name(),
-            cliente.getDocumento(),
-            cliente.getNombreRazonSocial(),
-            cliente.getRepresentanteLegal(),
-            cliente.getCorreo(),
-            cliente.getTelefono(),
-            cliente.getDireccion(),
-            cliente.getCiudad(),
-            cliente.getObservaciones()
-        ));
+        return clienteRepository.findAll(pageable);
     }
 
     public void modificarCliente(Long id, Clientecommand cliente, Authentication authentication) {

@@ -96,7 +96,7 @@ public class UsuarioController {
         return "redirect:/usuarios";
     }
 
-    @DeleteMapping("/eliminar/{documento}")
+    @PostMapping("/eliminar/{documento}")
     public String eliminarUsuario(
         @PathVariable String documento,
         Authentication authentication

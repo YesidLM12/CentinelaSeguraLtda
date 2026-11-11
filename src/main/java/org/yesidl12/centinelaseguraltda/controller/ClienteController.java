@@ -29,7 +29,7 @@ public class ClienteController {
     @PostMapping
     public String crearCliente(@ModelAttribute Clientecommand cliente, Authentication authentication) {
         clienteService.crearCliente(cliente, authentication);
-        return "redirect:/cliente";
+        return "redirect:/clientes";
     }
 
     @GetMapping("/crear")
@@ -44,7 +44,7 @@ public class ClienteController {
         @RequestParam(defaultValue = "5") int size,
         Model model
     ) {
-        Page<Clientecommand> clientes = clienteService.listarClientes(page, size);
+        Page<ClienteEntity> clientes = clienteService.listarClientes(page, size);
         model.addAttribute("clientes", clientes);
         return "clientes/listar";
     }
@@ -52,19 +52,19 @@ public class ClienteController {
     @PatchMapping("/{id}")
     public String actualizarCliente(@PathVariable Long id, @ModelAttribute Clientecommand cliente, Authentication authentication) {
         clienteService.modificarCliente(id, cliente, authentication);
-        return "redirect:/cliente";
+        return "redirect:/clientes";
     }
 
     @GetMapping("/actualizar/{id}")
     public String mostrarFormularioActualizar(@PathVariable Long id, Model model) {
         ClienteEntity cliente = clienteService.obtenerClientePorId(id);
         model.addAttribute("cliente", cliente);
-        return "cliente/actualizar";
+        return "clientes/actualizar";
     }
     
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String eliminarCliente(@PathVariable Long id, Authentication authentication) {
         clienteService.eliminarClientePorId(id);
-        return "redirect:/cliente";
+        return "redirect:/clientes";
     }
 }

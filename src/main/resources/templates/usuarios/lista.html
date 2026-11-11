@@ -30,37 +30,36 @@
             <div class="tabla-container">
                 <table id="tabla-usuarios">
                     <thead>
-                    <tr>
-                        <th>Documento</th>  
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Activo</th>
-                        <th>Acciones</th>
-                    </tr>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usuario : ${usuarios}">
-                        <td th:text="${usuario.documento()}"></td>
-                        <td th:text="${usuario.nombre()}"></td>
-                        <td th:text="${usuario.correo()}"></td>
-                        <td th:text="${usuario.rol()}"></td>
-                        <td th:text="${usuario.activo()}"></td>
-                        <td>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td th:text="${usuario.documento()}"></td>
+                            <td th:text="${usuario.nombre()}"></td>
+                            <td th:text="${usuario.correo()}"></td>
+                            <td th:text="${usuario.rol()}"></td>
+                            <td th:text="${usuario.activo()}"></td>
+                            <td>
 
                                 <div class="action-button">
                                     <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
                                         <a th:href="@{/usuarios/actualizar/{id}(id=${usuario.documento()})}">Editar</a>
                                     </button>
 
-                                    <form th:action="@{/usuarios/eliminar/{documento}(documento=${usuario.documento})}"
-                                        method="post">
-
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-accion">
-                                            Eliminar
-                                        </button>
-                                    </form>
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <form
+                                            th:action="@{/usuarios/eliminar/{documento}(documento=${usuario.documento()})}"
+                                            method="post" onsubmit="return confirm('¿Eliminar este usuario?');">
+                                            <button type="submit" class="btn btn-peligro">Eliminar</button>
+                                        </form>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
