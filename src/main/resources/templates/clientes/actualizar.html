@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:xsi="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Actualizar Cliente</title>
+</head>
+<body>
+    <div class="formulario-container">
+        <div class="formulario-subcontainer">
+            <form th:object="${cliente}" th:action="@{/clientes/{id}(id=${cliente.id})}" method="post" class="formulario-registrar-cliente">
+                <input type="hidden" name="id" th:value="*{id}"/>
+                <h1>Actualizar Cliente</h1>
+                
+                <div class="campo-formulario">
+                    <label class="label">Tipo</label>
+                    <select class="input-label" name="tipo">
+                        <option value="">Seleccione un tipo</option>
+                        <option th:each="tipo : ${T(org.yesidl12.centinelaseguraltda.enums.Tipo).values()}" 
+                                th:value="${tipo}" 
+                                th:text="${tipo}"></option>
+                    </select>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Documento</label>
+                    <input type="text" class="input-label" name="documento" th:value="*{documento}"/>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Correo</label>
+                    <input type="email" class="input-label" name="correo" th:value="*{correo}"/>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Teléfono</label>
+                    <input type="text" class="input-label" name="telefono" th:value="*{telefono}"/>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Dirección</label>
+                    <input type="text" class="input-label" name="direccion" th:value="*{direccion}"/>
+                </div>
+                
+                <div class="campo-formulario">
+                    <label class="label">Ciudad</label>
+                    <input type="text" class="input-label" name="ciudad" th:value="*{ciudad}"/>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Observaciones</label>
+                    <input type="text" class="input-label" name="observaciones" th:value="*{observaciones}"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

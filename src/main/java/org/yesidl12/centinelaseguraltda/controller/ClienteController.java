@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -59,5 +60,11 @@ public class ClienteController {
         ClienteEntity cliente = clienteService.obtenerClientePorId(id);
         model.addAttribute("cliente", cliente);
         return "cliente/actualizar";
+    }
+    
+    @DeleteMapping("/{id}")
+    public String eliminarCliente(@PathVariable Long id, Authentication authentication) {
+        clienteService.eliminarClientePorId(id);
+        return "redirect:/cliente";
     }
 }

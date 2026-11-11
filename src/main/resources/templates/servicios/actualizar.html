@@ -10,7 +10,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <div class="formulario-container">
         <div class="formulario-subcontainer">
-            <form th:action="@{/servicios/{id}(id=${servicio.id})}" method="post" class="formulario-registrar-servicio">
+            <form  th:object="${servicio}" th:action="@{/servicios/{id}(id=${servicio.id})}" method="post" class="formulario-registrar-servicio">
 
                 <input type="hidden" name="id" th:value="*{id}"/>
                 <h1>Actualizar Servicio</h1>

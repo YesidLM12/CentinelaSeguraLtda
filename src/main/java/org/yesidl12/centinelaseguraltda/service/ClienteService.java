@@ -106,4 +106,8 @@ public class ClienteService {
     public ClienteEntity obtenerClientePorId(Long id) {
         return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("El cliente no existe"));
     }
+
+    public void eliminarClientePorId(Long id) {
+        clienteRepository.deleteById(id);
+    }
 }
