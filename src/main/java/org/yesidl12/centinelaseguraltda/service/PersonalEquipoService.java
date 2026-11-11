@@ -20,12 +20,14 @@ import org.yesidl12.centinelaseguraltda.dto.EmpleadoCommand;
 import org.yesidl12.centinelaseguraltda.dto.EquipoCommand;
 import org.yesidl12.centinelaseguraltda.entity.EmpleadoEntity;
 import org.yesidl12.centinelaseguraltda.entity.EquipoEntity;
+import org.yesidl12.centinelaseguraltda.entity.InstructorEntity;
 import org.yesidl12.centinelaseguraltda.entity.ServicioEntity;
 import org.yesidl12.centinelaseguraltda.enums.Cargo;
 import org.yesidl12.centinelaseguraltda.enums.Estado_Equipo;
 import org.yesidl12.centinelaseguraltda.enums.Modalidad;
 import org.yesidl12.centinelaseguraltda.enums.Tipo_Equipo;
 import org.yesidl12.centinelaseguraltda.repository.EmpleadoRepository;
+import org.yesidl12.centinelaseguraltda.repository.InstructorRepository;
 import org.yesidl12.centinelaseguraltda.repository.ServicioRepository;
 
 import jakarta.transaction.Transactional;
@@ -36,12 +38,14 @@ public class PersonalEquipoService {
     private final EquipoRepository equipoRepository;
     private final EmpleadoRepository empleadoRepository;
     private final ServicioRepository servicioRepository;
+    private final InstructorRepository instructorRepository;
 
     public PersonalEquipoService(EquipoRepository equipoRepository, EmpleadoRepository empleadoRepository,
-            ServicioRepository servicioRepository) {
+            ServicioRepository servicioRepository, InstructorRepository instructorRepository) {
         this.equipoRepository = equipoRepository;
         this.empleadoRepository = empleadoRepository;
         this.servicioRepository = servicioRepository;
+        this.instructorRepository = instructorRepository;
     }
 
     public void crearPersonal(EmpleadoCommand command, Authentication authentication) {
@@ -57,6 +61,20 @@ public class PersonalEquipoService {
         }
         if (command.venceCredencial().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La credencial no puede tener una fecha de vencimiento pasada");
+        }
+        
+        if (command.cargo().equals("INSTRUCTOR")) {
+            if (instructorRepository.findByDocumento(command.documento()) != null) {
+                throw new IllegalArgumentException("Ya existe un instructor con documento " + command.documento());
+            }
+
+            InstructorEntity instructor = new InstructorEntity();
+            instructor.setDocumento(command.documento());
+            instructor.setNombre(command.nombre());
+            instructor.setEspecialidad("N/A");
+            instructor.setCorreo(command.correo());
+            instructor.setActivo(true);
+            instructorRepository.save(instructor);
         }
 
         EmpleadoEntity nuevoEmpleado = new EmpleadoEntity();
@@ -88,6 +106,19 @@ public class PersonalEquipoService {
         if (empleado == null) {
             log.warn("El empleado con documento {} no existe", command.documento());
             return;
+        }
+
+        if (command.cargo().equals("INSTRUCTOR")) {
+            InstructorEntity instructor = instructorRepository.findByDocumento(command.documento());
+            if (instructor == null) {
+                throw new IllegalArgumentException("No existe un instructor con documento " + command.documento());
+            }
+            instructor.setDocumento(command.documento() != null ? command.documento() : instructor.getDocumento());
+            instructor.setNombre(command.nombre() != null ? command.nombre() : instructor.getNombre());
+            instructor.setEspecialidad("N/A");
+            instructor.setCorreo(command.correo() != null ? command.correo() : instructor.getCorreo());
+        
+            instructorRepository.save(instructor);
         }
 
         empleado.setNombre(command.nombre() != null ? command.nombre() : empleado.getNombre());

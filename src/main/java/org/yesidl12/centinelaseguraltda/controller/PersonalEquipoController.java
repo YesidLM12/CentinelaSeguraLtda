@@ -3,6 +3,7 @@ package org.yesidl12.centinelaseguraltda.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +19,13 @@ import org.yesidl12.centinelaseguraltda.dto.EmpleadoCommand;
 import org.yesidl12.centinelaseguraltda.dto.EquipoCommand;
 import org.yesidl12.centinelaseguraltda.dto.FilaRecursoVM;
 import org.yesidl12.centinelaseguraltda.entity.EquipoEntity;
+import org.yesidl12.centinelaseguraltda.entity.InstructorEntity;
 import org.yesidl12.centinelaseguraltda.enums.Cargo;
 import org.yesidl12.centinelaseguraltda.enums.Estado_Equipo;
 import org.yesidl12.centinelaseguraltda.enums.Tipo_Equipo;
 import org.yesidl12.centinelaseguraltda.repository.EmpleadoRepository;
 import org.yesidl12.centinelaseguraltda.repository.EquipoRepository;
+import org.yesidl12.centinelaseguraltda.repository.InstructorRepository;
 import org.yesidl12.centinelaseguraltda.repository.ServicioRepository;
 import org.yesidl12.centinelaseguraltda.service.PersonalEquipoService;
 
@@ -37,6 +40,7 @@ public class PersonalEquipoController {
     private final EmpleadoRepository empleadoRepository;
     private final EquipoRepository equipoRepository;
     private final ServicioRepository servicioRepository;
+    private final InstructorRepository instructorRepository;
 
     // ==================== PERSONAL ====================
 
@@ -47,7 +51,7 @@ public class PersonalEquipoController {
         var personal = personalEquipoService.listarPersonal(page, size);
         model.addAttribute("personal", personal);
         model.addAttribute("cargos", Cargo.values());
-        model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null));
+        model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null,null,null));
         return "personal/lista";
     }
 
@@ -57,6 +61,7 @@ public class PersonalEquipoController {
         try {
             personalEquipoService.crearPersonal(command, authentication);
             flash.addFlashAttribute("exito", "Empleado creado correctamente");
+            flash.addFlashAttribute("instructorForm", new InstructorEntity());
         } catch (IllegalArgumentException e) {
             flash.addFlashAttribute("error", e.getMessage());
         }
@@ -65,8 +70,10 @@ public class PersonalEquipoController {
     
     @GetMapping("/personal/crear")
     public String crearPersonalForm(Model model) {
-        model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null));
+        model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null,null,null));
         model.addAttribute("cargos", Cargo.values());
+        List<InstructorEntity> instructores = instructorRepository.findAll(Sort.by("nombre"));
+        model.addAttribute("instructores", instructores);
         return "personal/crear";
     }
 

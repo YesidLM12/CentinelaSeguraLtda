@@ -185,7 +185,7 @@ label {
 }
 
 /*Estilos para la tabla de usuarios*/
-.container-usuarios-lista, .container-servicios-lista, .container-clientes-lista, .container-personal-lista, .container-equipos-lista {
+.container-usuarios-lista, .container-servicios-lista, .container-clientes-lista, .container-personal-lista, .container-equipos-lista, .container-entrenamientos-lista, .container-entrenamientos-lista {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
@@ -195,7 +195,7 @@ label {
     
 }
 
-.container-tabla-usuarios, .container-tabla-servicios, .container-tabla-clientes, .container-tabla-personal, .container-tabla-equipos {
+.container-tabla-usuarios, .container-tabla-servicios, .container-tabla-clientes, .container-tabla-personal, .container-tabla-equipos, .container-tabla-entrenamientos {
     width: auto;
     display: flex;
     flex-direction: column;
@@ -203,9 +203,11 @@ label {
     justify-content: flex-start;
     height: 100vh;
     padding: 3rem;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
-.container-tabla-usuarios a , .container-tabla-servicios a, .container-tabla-clientes a, .container-tabla-personal a, .container-tabla-equipos a{
+.container-tabla-usuarios a , .container-tabla-servicios a, .container-tabla-clientes a, .container-tabla-personal a, .container-tabla-equipos a, .container-tabla-entrenamientos a{
     text-decoration: none;
     color: black;
 }
@@ -390,9 +392,10 @@ thead th{
     justify-content: center;
     height: 100vh;
     background-color: rgba(92, 107, 122, 0.2);
+    overflow-y: auto;
 }
 
-.formulario-registrar-usuario, .formulario-registrar-servicio, .formulario-registrar-cliente, .formulario-registrar-personal, .formulario-registrar-equipos{
+.formulario-registrar-usuario, .formulario-registrar-servicio, .formulario-registrar-cliente, .formulario-registrar-personal, .formulario-registrar-equipos, .formulario-registrar-entrenamiento{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -404,7 +407,8 @@ thead th{
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     width: 50rem;
-    height: auto;
+    height: 80vh;
+    overflow-y: auto;
 }
 
 .campo-formulario{

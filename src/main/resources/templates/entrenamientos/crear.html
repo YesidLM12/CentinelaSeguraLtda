@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:xsi="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Crear Entrenamiento</title>
+</head>
+
+<body>
+    <div class="formulario-container">
+        <div class="formulario-subcontainer">
+            <form th:action="@{/entrenamientos}" method="post" class="formulario-registrar-entrenamiento">
+                <h1>Crear Entrenamiento</h1>
+
+                <div class="campo-formulario">
+                    <label class="label">Nombre</label>
+                    <input class="label-input" type="text" name="nombre" required>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Instructor</label>
+                    <select class="label-input" name="instructor" id="instructor">
+                       <option value="">Seleccione un instructor</option>
+                       <option th:each="instructor : ${instructores}" th:value="${instructor.id}" th:text="${instructor.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="tipoEntrenamiento" class="label"> Tipo Entrenamiento </label>
+                        <select class="label-input" name="tipo" id="tipoEntrenamiento">
+                            <option value="">Seleccione un tipo de entrenamiento</option>
+                            <option value="FUNDAMENTACION">Fundamentación</option>
+                            <option value="REENTRANAMIENTO">Reentrenamiento</option>
+                            <option value="ESPECIALIZACION">Especialización</option>
+                            <option value="PROFUNDIZACION">Profundización</option>
+                            <option value="COMPLEMENTARIO">Complementario</option>
+                        </select>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Descripción</label>
+                    <input class="label-input" type="text" name="descripcion" required>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Contenido</label>
+                    <input class="label-input" type="text" name="contenido" required>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Intensidad (horas)</label>
+                    <input class="label-input" type="number" name="intensidadHoras" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Costo</label>
+                    <input class="label-input" type="number" name="costo" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Cupo máximo</label>
+                    <input class="label-input" type="number" name="cupoMaximo" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Fecha inicio</label>
+                    <input class="label-input" type="date" name="fechaInicio" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Fecha fin</label>
+                    <input class="label-input" type="date" name="fechaFin" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Hora inicio</label>
+                    <input class="label-input" type="time" name="horaInicio" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Hora fin</label>
+                    <input class="label-input" type="time" name="horaFin" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Lugar</label>
+                    <input class="label-input" type="text" name="lugar" required>
+                </div>
+
+                <div class="campo-formulario">
+                    <label for="estado" class="label"> Estado Entrenamiento </label>
+                        <select class="label-input" name="estado" id="estado">
+                            <option value="">Seleccione un estado</option>
+                            <option value="PROGRAMADO">Programado</option>
+                            <option value="CANCELADO">Cancelado</option>
+                        </select>
+                </div>
+
+                <button type="submit" class="btn-login">Guardar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

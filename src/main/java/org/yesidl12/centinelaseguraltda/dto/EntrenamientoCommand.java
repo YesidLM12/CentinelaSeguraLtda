@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 public record EntrenamientoCommand(
     String nombre,
+    Long instructor,
     String tipo,
     String descripcion,
     String contenido,

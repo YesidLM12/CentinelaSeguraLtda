@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.yesidl12.centinelaseguraltda.dto.EntrenamientoCommand;
+import org.yesidl12.centinelaseguraltda.entity.EmpleadoEntity;
 import org.yesidl12.centinelaseguraltda.entity.EntrenamientoEntity;
+import org.yesidl12.centinelaseguraltda.entity.InstructorEntity;
 import org.yesidl12.centinelaseguraltda.enums.Estado_Entrenamiento;
 import org.yesidl12.centinelaseguraltda.enums.Tipo_Entrenamiento;
 import org.yesidl12.centinelaseguraltda.repository.EntrenamientoRepository;
+import org.yesidl12.centinelaseguraltda.repository.EmpleadoRepository;
+import org.yesidl12.centinelaseguraltda.repository.InstructorRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,9 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EntrenamientoService {
     private final EntrenamientoRepository entrenamientoRepository;
+    private final EmpleadoRepository empleadoRepository;
+    private final InstructorRepository instructorRepository;
 
-    public EntrenamientoService(EntrenamientoRepository entrenamientoRepository) {
+    public EntrenamientoService(EntrenamientoRepository entrenamientoRepository, EmpleadoRepository empleadoRepository, InstructorRepository instructorRepository) {
         this.entrenamientoRepository = entrenamientoRepository;
+        this.empleadoRepository = empleadoRepository;
+        this.instructorRepository = instructorRepository;
     }
 
     public void crearEntrenamiento(EntrenamientoCommand entrenamientoCommand, Authentication authentication) {
@@ -30,6 +38,11 @@ public class EntrenamientoService {
         if (entrenamientoEntity.isPresent()) {
             throw new RuntimeException("El entrenamiento con nombre " + entrenamientoCommand.nombre() + " ya existe");
         }
+        
+       Optional<InstructorEntity> instructorEntity = instructorRepository.findById(entrenamientoCommand.instructor());
+       if (instructorEntity.isEmpty()) {
+           throw new RuntimeException("El instructor con id " + entrenamientoCommand.instructor() + " no existe");
+       }
 
         EntrenamientoEntity entrenamiento = new EntrenamientoEntity();
         entrenamiento.setNombre(entrenamientoCommand.nombre());
@@ -45,6 +58,7 @@ public class EntrenamientoService {
         entrenamiento.setHoraFin(entrenamientoCommand.horaFin());
         entrenamiento.setLugar(entrenamientoCommand.lugar());
         entrenamiento.setEstado(Estado_Entrenamiento.valueOf(entrenamientoCommand.estado()));
+        entrenamiento.setInstructor(instructorEntity.get());
         
         entrenamientoRepository.save(entrenamiento);
         
