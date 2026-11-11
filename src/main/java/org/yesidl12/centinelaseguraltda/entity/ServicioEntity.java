@@ -68,6 +68,12 @@ public class ServicioEntity extends AuditableEntity {
    @OneToMany(mappedBy = "servicio")
    private List<ContratacionEntity> contrataciones;
 
+   @OneToMany(mappedBy = "servicio")
+   private List<EquipoEntity> equipos;
+
+   @OneToMany(mappedBy = "servicio")
+   private List<EmpleadoEntity> empleados;
+
    public boolean tieneContratacionesActivas() {
       return contrataciones.stream().anyMatch(contratacion -> contratacion.getEstado() == Estado_Contratacion.ACTIVA);
    }

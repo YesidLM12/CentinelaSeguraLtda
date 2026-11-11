@@ -4,5 +4,6 @@ public enum Modalidad {
    VIGILANCIA_FIJA,
    PATRULLAJE_MOVIL,
    ESCOLTA,
-   MONITOREO
+   MONITOREO,
+   CUSTODIA_VALORES
 }

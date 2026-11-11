@@ -6,4 +6,6 @@ import org.yesidl12.centinelaseguraltda.entity.EmpleadoEntity;
 
 @Repository
 public interface EmpleadoRepository extends JpaRepository<EmpleadoEntity, Long> {
+
+    EmpleadoEntity findByDocumento(String documento);
 }
