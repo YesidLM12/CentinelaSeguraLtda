@@ -89,7 +89,7 @@ CREATE TABLE equipo(
     fecha_adquision DATE,
 
     CONSTRAINT PK_equipo PRIMARY KEY (equipo_id),
-    CONSTRAINT CK_equipo_tipo CHECK ( tipo IN ('ARMA', 'COMUNICACION', ' VEHICULO', 'TECNOLOGICO', 'OTRO')),
+    CONSTRAINT CK_equipo_tipo CHECK ( tipo IN ('ARMA', 'COMUNICACION', 'VEHICULO', 'TECNOLOGICO', 'OTRO')),
     CONSTRAINT CK_equipo_estado CHECK ( estado IN ('DISPONIBLE', 'MANTENIMIENTO', 'BAJA') )
 );
 

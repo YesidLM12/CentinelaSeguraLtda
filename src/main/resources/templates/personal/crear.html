@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:xsi="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Crear Personal</title>
+</head>
+
+<body>
+    <div class="formulario-container">
+        <div class="formulario-subcontainer">
+            <form th:action="@{/personal-equipo/personal}" method="post" class="formulario-registrar-personal">
+                <h1>Crear Personal</h1>
+
+                <div class="campo-formulario">
+                    <label class="label">Documento</label>
+                    <input class="label-input" type="text" name="documento" placeholder="Documento" required>
+                </div>
+
+                <div class="campo-formulario">
+                    <label class="label">Nombre</label>
+                    <input class="label-input" type="text" name="nombre" placeholder="Nombre" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Cargo</label>
+                    <select class="label-input" name="cargo" required>
+                        <option value="">Seleccione un cargo</option>
+                        <option th:each="cargo : ${T(org.yesidl12.centinelaseguraltda.enums.Cargo).values()}"
+                            th:value="${cargo}" th:text="${cargo}"></option>
+                    </select>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Número de Credencial</label>
+                    <input class="label-input" type="number" name="numeroCredencial" placeholder="Número de Credencial" 
+                        required pattern="[0-9]+" maxlength="30"
+                        title="Solo se permiten dígitos"
+                        inputmode="numeric">
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Vence Credencial</label>
+                    <input class="label-input" type="date" name="venceCredencial" placeholder="Vence Credencial"
+                        required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Teléfono</label>
+                    <input class="label-input" type="number" name="telefono" placeholder="Teléfono" required>
+                </div>
+                <div class="campo-formulario">
+                    <label class="label">Fecha de Ingreso</label>
+                    <input class="label-input" type="date" name="fechaIngreso" placeholder="Fecha de Ingreso" required>
+                </div>
+                <button type="submit" class="btn-login">Guardar</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -52,4 +52,7 @@ public class EquipoEntity extends AuditableEntity {
     @Column(name = "fecha_adquision")
     private LocalDate fechaAdquision;
 
+    @ManyToOne
+    @JoinColumn(name = "servicio_id")
+    private ServicioEntity servicio;
 }

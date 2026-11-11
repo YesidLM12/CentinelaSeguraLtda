@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.yesidl12.centinelaseguraltda.repository.EquipoRepository;
@@ -45,11 +48,15 @@ public class PersonalEquipoService {
         String usuarioLogueado = authentication.getName();
         log.info("Creando personal por usuario: {}", usuarioLogueado);
 
-        EmpleadoEntity empleadoexistent = empleadoRepository.findByDocumento(command.documento());
 
-        if (empleadoexistent != null) {
-            log.warn("El empleado con documento {} ya existe", command.documento());
-            return;
+        if (empleadoRepository.findByDocumento(command.documento()) != null) {
+            throw new IllegalArgumentException("Ya existe un empleado con documento " + command.documento());
+        }
+        if (command.venceCredencial() == null) {
+            throw new IllegalArgumentException("Debe indicar la fecha de vencimiento de la credencial");
+        }
+        if (command.venceCredencial().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La credencial no puede tener una fecha de vencimiento pasada");
         }
 
         EmpleadoEntity nuevoEmpleado = new EmpleadoEntity();
@@ -58,12 +65,18 @@ public class PersonalEquipoService {
         nuevoEmpleado.setTelefono(command.telefono());
         nuevoEmpleado.setCargo(Cargo.valueOf(command.cargo()));
         nuevoEmpleado.setNumero_credencial(command.numeroCredencial());
+        nuevoEmpleado.setVence_credencial(command.venceCredencial());
         nuevoEmpleado.setFecha_ingreso(command.fechaIngreso());
         nuevoEmpleado.setActivo(true);
 
         empleadoRepository.save(nuevoEmpleado);
 
         log.info("Personal creado exitosamente con documento: {}", command.documento());
+    }
+
+    public Page<EmpleadoEntity> listarPersonal(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return empleadoRepository.findAll(pageable);
     }
 
     public void actualizarPersonal(EmpleadoCommand command, Authentication authentication) {
@@ -82,6 +95,8 @@ public class PersonalEquipoService {
         empleado.setCargo(command.cargo() != null ? Cargo.valueOf(command.cargo()) : empleado.getCargo());
         empleado.setNumero_credencial(
                 command.numeroCredencial() != null ? command.numeroCredencial() : empleado.getNumero_credencial());
+        empleado.setVence_credencial(
+                command.venceCredencial() != null ? command.venceCredencial() : empleado.getVence_credencial());
         empleado.setFecha_ingreso(
                 command.fechaIngreso() != null ? command.fechaIngreso() : empleado.getFecha_ingreso());
         empleado.setActivo(true);
@@ -102,9 +117,11 @@ public class PersonalEquipoService {
             return;
         }
 
-        empleado.setActivo(false);
+        if (servicioRepository.existsById(empleado.getId())) {
+            throw new IllegalArgumentException("No se puede eliminar el personal porque tiene servicios asignados");
+        }
 
-        empleadoRepository.save(empleado);
+        empleadoRepository.delete(empleado);
 
         log.info("Personal eliminado exitosamente con documento: {}", documento);
     }
@@ -145,17 +162,10 @@ public class PersonalEquipoService {
         log.info("Personal desactivado exitosamente con documento: {}", documento);
     }
 
-    public void crearEquipo(Long id, EquipoCommand command, Authentication authentication) {
+    public void crearEquipo(EquipoCommand command, Authentication authentication) {
         String usuarioLogueado = authentication.getName();
 
         log.info("Creando equipo por usuario: {}", usuarioLogueado);
-
-        Optional<EquipoEntity> equipoExistente = equipoRepository.findById(id);
-
-        if (equipoExistente.isPresent()) {
-            log.warn("El equipo con ID {} ya existe", id);
-            return;
-        }
 
         // Crear nuevo equipo
         EquipoEntity equipo = new EquipoEntity();
@@ -168,8 +178,6 @@ public class PersonalEquipoService {
         equipo.setFechaAdquision(LocalDate.parse(command.fechaAdquision()));
 
         equipoRepository.save(equipo);
-
-        log.info("Equipo creado exitosamente con ID: {}", id);
     }
 
     public void actualizarEquipo(Long id, EquipoCommand command, Authentication authentication) {
@@ -212,6 +220,11 @@ public class PersonalEquipoService {
         equipoRepository.delete(equipoExistente.get());
 
         log.info("Equipo eliminado exitosamente con ID: {}", id);
+    }
+
+    public Page<EquipoEntity> listarEquipos(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return equipoRepository.findAll(pageable);
     }
 
     @Transactional
@@ -334,5 +347,10 @@ public class PersonalEquipoService {
         return tipo == Tipo_Equipo.ARMA
                 || tipo == Tipo_Equipo.COMUNICACION
                 || tipo == Tipo_Equipo.TECNOLOGICO;
+    }
+
+    public EquipoEntity obtenerEquipoPorId(Long id) {
+        return equipoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipo no encontrado"));
     }
 }

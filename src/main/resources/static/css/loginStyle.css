@@ -185,7 +185,7 @@ label {
 }
 
 /*Estilos para la tabla de usuarios*/
-.container-usuarios-lista, .container-servicios-lista, .container-clientes-lista {
+.container-usuarios-lista, .container-servicios-lista, .container-clientes-lista, .container-personal-lista, .container-equipos-lista {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
@@ -195,7 +195,7 @@ label {
     
 }
 
-.container-tabla-usuarios, .container-tabla-servicios, .container-tabla-clientes {
+.container-tabla-usuarios, .container-tabla-servicios, .container-tabla-clientes, .container-tabla-personal, .container-tabla-equipos {
     width: auto;
     display: flex;
     flex-direction: column;
@@ -205,7 +205,7 @@ label {
     padding: 3rem;
 }
 
-.container-tabla-usuarios a , .container-tabla-servicios a, .container-tabla-clientes a{
+.container-tabla-usuarios a , .container-tabla-servicios a, .container-tabla-clientes a, .container-tabla-personal a, .container-tabla-equipos a{
     text-decoration: none;
     color: black;
 }
@@ -392,7 +392,7 @@ thead th{
     background-color: rgba(92, 107, 122, 0.2);
 }
 
-.formulario-registrar-usuario, .formulario-registrar-servicio, .formulario-registrar-cliente{
+.formulario-registrar-usuario, .formulario-registrar-servicio, .formulario-registrar-cliente, .formulario-registrar-personal, .formulario-registrar-equipos{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

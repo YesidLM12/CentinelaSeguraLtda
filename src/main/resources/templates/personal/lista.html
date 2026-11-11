@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Lista de Personal</title>
+</head>
+
+<body>
+    <div class="container-personal-lista">
+        <section>
+            <div th:replace="~{fragments/fragmentos :: navbar}"></div>
+        </section>
+        <main class="container-tabla-personal">
+            <div class="container-titulo">
+                <h1>Personal</h1>
+
+                <button type="button" th:action="@{/personal-equipo/personal/crear}"
+                    sec:authorize="hasRole('ADMINISTRADOR')" class="btn-login">
+                    <a th:href="@{/personal-equipo/personal/crear}">Nuevo Personal</a>
+                </button>
+            </div>
+
+            <div class="tabla-container">
+                <table id="tabla-personal">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Nombre</th>
+                            <th>Cargo</th>
+                            <th>Numero Credencial</th>
+                            <th>Vence Credencial</th>
+                            <th>Telefono</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="personal : ${personal}">
+                            <td th:text="${personal.documento}"></td>
+                            <td th:text="${personal.nombre}"></td>
+                            <td th:text="${personal.cargo}"></td>
+                            <td th:text="${personal.numero_credencial}"></td>
+                            <td th:text="${personal.vence_credencial}"></td>
+                            <td th:text="${personal.telefono}"></td>
+                            <td th:text="${personal.fecha_ingreso}"></td>
+                            <td>
+                                <div class="action-button">
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <a
+                                            th:href="@{/personal-equipo/personal/actualizar/{documento}(documento=${personal.documento})}">Editar</a>
+                                    </button>
+
+                                    <form sec:authorize="hasRole('ADMINISTRADOR')"
+                                        th:action="@{/personal-equipo/personal/{documento}/eliminar(documento=${personal.documento})}"
+                                        method="post" style="display:inline"
+                                        onsubmit="return confirm('¿Eliminar este personal?');">
+                                        <button type="submit" class="btn btn-peligro">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    <p th:if="${personal.isEmpty()}">No hay personal registrado</p>
+
+                    <a class="pagination-button" th:if="${personal.hasPrevious()}"
+                        th:href="@{/personal-equipo/personal(page=${personal.number - 1})}">Anterior</a>
+
+                    <p th:if="${!personal.isEmpty()}">
+                        Mostrando página <span th:text="${personal.number + 1}"></span>
+                        de <span th:text="${personal.totalPages}"></span>
+                    </p>
+
+                    <a class="pagination-button" th:if="${personal.hasNext()}"
+                        th:href="@{/personal-equipo/personal(page=${personal.number + 1})}">Siguiente</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

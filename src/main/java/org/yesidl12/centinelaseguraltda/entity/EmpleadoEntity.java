@@ -19,13 +19,7 @@ public class EmpleadoEntity extends AuditableEntity {
    @Column(name = "empleado_id", nullable = false, updatable = false)
    private Long id;
 
-   @Column(
-	   name = "documento",
-	   nullable = false,
-	   unique = true,
-	   check = @CheckConstraint(
-		   name = "CK_empleado_documento",
-		   constraint = "documento REGEXP '^[0-9]+$'"))
+   @Column(name = "documento", nullable = false, unique = true, check = @CheckConstraint(name = "CK_empleado_documento", constraint = "documento REGEXP '^[0-9]+$'"))
    private String documento;
 
    @Column(name = "nombre", nullable = false)
@@ -35,25 +29,13 @@ public class EmpleadoEntity extends AuditableEntity {
    @Column(name = "cargo", nullable = false, length = 20)
    private Cargo cargo;
 
-   @Column(
-	   name = "numero_credencial",
-	   nullable = false,
-	   length = 30,
-	   unique = true,
-	   check = @CheckConstraint(
-		   name = "CK_empleado_numero_credencial",
-		   constraint = "numero_credencial REGEXP '^[0-9]+$'"))
+   @Column(name = "numero_credencial", nullable = false, length = 30, unique = true, check = @CheckConstraint(name = "CK_empleado_numero_credencial", constraint = "numero_credencial REGEXP '^[0-9]+$'"))
    private String numero_credencial;
 
    @Column(name = "vence_credencial", nullable = false)
    private LocalDate vence_credencial;
 
-   @Column(
-	   name = "telefono",
-	   length = 15,
-	   check = @CheckConstraint(
-		   name = "CK_empleado_telefono",
-		   constraint = "telefono REGEXP '^[0-9]+$'"))
+   @Column(name = "telefono", length = 15, check = @CheckConstraint(name = "CK_empleado_telefono", constraint = "telefono REGEXP '^[0-9]+$'"))
    private String telefono;
 
    @Column(name = "fecha_ingreso")
@@ -61,4 +43,8 @@ public class EmpleadoEntity extends AuditableEntity {
 
    @Column(name = "activo", nullable = false)
    private Boolean activo = true;
+
+   @ManyToOne
+   @JoinColumn(name = "servicio_id")
+   private ServicioEntity servicio;
 }

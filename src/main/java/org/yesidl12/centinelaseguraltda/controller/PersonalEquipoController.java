@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.yesidl12.centinelaseguraltda.dto.EmpleadoCommand;
 import org.yesidl12.centinelaseguraltda.dto.EquipoCommand;
 import org.yesidl12.centinelaseguraltda.dto.FilaRecursoVM;
+import org.yesidl12.centinelaseguraltda.entity.EquipoEntity;
 import org.yesidl12.centinelaseguraltda.enums.Cargo;
 import org.yesidl12.centinelaseguraltda.enums.Estado_Equipo;
 import org.yesidl12.centinelaseguraltda.enums.Tipo_Equipo;
@@ -39,8 +41,11 @@ public class PersonalEquipoController {
     // ==================== PERSONAL ====================
 
     @GetMapping("/personal")
-    public String listarPersonal(Model model) {
-        model.addAttribute("empleados", empleadoRepository.findAll());
+    public String listarPersonal(@RequestParam(defaultValue = "0") int page, 
+            @RequestParam(defaultValue = "10") int size,
+            Model model) {
+        var personal = personalEquipoService.listarPersonal(page, size);
+        model.addAttribute("personal", personal);
         model.addAttribute("cargos", Cargo.values());
         model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null));
         return "personal/lista";
@@ -56,6 +61,13 @@ public class PersonalEquipoController {
             flash.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/personal-equipo/personal";
+    }
+    
+    @GetMapping("/personal/crear")
+    public String crearPersonalForm(Model model) {
+        model.addAttribute("empleadoForm", new EmpleadoCommand(null, null, null, null, null, null));
+        model.addAttribute("cargos", Cargo.values());
+        return "personal/crear";
     }
 
     @PostMapping("/personal/{documento}/actualizar")
@@ -86,7 +98,7 @@ public class PersonalEquipoController {
 
     @GetMapping("/equipos")
     public String listarEquipos(Model model) {
-        model.addAttribute("equipos", equipoRepository.findAll());
+        model.addAttribute("equipos", personalEquipoService.listarEquipos(0, 10));
         model.addAttribute("tipos", Tipo_Equipo.values());
         model.addAttribute("estados", Estado_Equipo.values());
         model.addAttribute("equipoForm", new EquipoCommand(null, null, null, null, null, null, null));
@@ -94,19 +106,27 @@ public class PersonalEquipoController {
     }
 
     @PostMapping("/equipos")
-    public String crearEquipo(@RequestParam Long id, @ModelAttribute("equipoForm") EquipoCommand command,
+    public String crearEquipo(@ModelAttribute("equipoForm") EquipoCommand command,
             Authentication authentication, RedirectAttributes flash) {
         try {
-            personalEquipoService.crearEquipo(id, command, authentication);
+            personalEquipoService.crearEquipo(command, authentication);
             flash.addFlashAttribute("exito", "Equipo creado correctamente");
         } catch (IllegalArgumentException e) {
             flash.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/personal-equipo/equipos";
     }
+    
+    @GetMapping("/equipos/crear")
+    public String crearEquipoForm(Model model) {
+        model.addAttribute("equipoForm", new EquipoCommand(null, null, null, null, null, null, null));
+        model.addAttribute("tipos", Tipo_Equipo.values());
+        model.addAttribute("estados", Estado_Equipo.values());
+        return "equipos/crear";
+    }
 
     @PostMapping("/equipos/{id}/actualizar")
-    public String actualizarEquipo(@org.springframework.web.bind.annotation.PathVariable Long id,
+    public String actualizarEquipo(@PathVariable Long id,
             @ModelAttribute EquipoCommand command, Authentication authentication, RedirectAttributes flash) {
         try {
             personalEquipoService.actualizarEquipo(id, command, authentication);
@@ -117,8 +137,15 @@ public class PersonalEquipoController {
         return "redirect:/personal-equipo/equipos";
     }
 
+    @GetMapping("/equipos/{id}")
+    public String mostrarFormularioActualizar(@PathVariable Long id, Model model) {
+        EquipoEntity equipo = personalEquipoService.obtenerEquipoPorId(id);
+        model.addAttribute("equipo", equipo);
+        return "redirect:/personal-equipo/equipos";
+    }
+
     @PostMapping("/equipos/{id}/eliminar")
-    public String eliminarEquipo(@org.springframework.web.bind.annotation.PathVariable Long id,
+    public String eliminarEquipo(@PathVariable Long id,
             Authentication authentication, RedirectAttributes flash) {
         try {
             personalEquipoService.eliminarEquipo(id, authentication);

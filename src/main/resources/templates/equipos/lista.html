@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <title>Lista de Equipos</title>
+</head>
+
+<body>
+    <div class="container-equipos-lista">
+        <section>
+            <div th:replace="~{fragments/fragmentos :: navbar}"></div>
+        </section>
+        <main class="container-tabla-equipos">
+            <div class="container-titulo">
+                <h1>Equipos</h1>
+
+                <button type="button" th:action="@{/equipos/crear}" sec:authorize="hasRole('ADMINISTRADOR')"
+                    class="btn-login">
+                    <a th:href="@{/personal-equipo/equipos/crear}">Nuevo Equipo</a>
+                </button>
+            </div>
+
+            <div class="tabla-container">
+                <table id="tabla-equipos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Marca</th>
+                            <th>Numero Permiso</th>
+                            <th>Estado</th>
+                            <th>Ubicación</th>
+                            <th>Fecha de Adquisición</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="equipo : ${equipos}">
+                            <td th:text="${equipo.id}"></td>
+                            <td th:text="${equipo.tipo}"></td>
+                            <td th:text="${equipo.descripcion}"></td>
+                            <td th:text="${equipo.marca}"></td>
+                            <td th:text="${equipo.numeroPermiso}"></td>
+                            <td th:text="${equipo.estado}"></td>
+                            <td th:text="${equipo.ubicacion}"></td>
+                            <td th:text="${equipo.fechaAdquision}"></td>
+                            <td>
+                                <div class="action-button">
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <a th:href="@{/personal-equipo/equipos/actualizar/{id}(id=${equipo.id})}">Editar</a>
+                                    </button>
+                                    <button sec:authorize="hasRole('ADMINISTRADOR')" class="btn btn-accion">
+                                        <form th:action="@{/personal-equipo/equipos/{id}/eliminar(id=${equipo.id})}" method="post"
+                                            onsubmit="return confirm('¿Eliminar este equipo?');">
+                                            <button type="submit" class="btn btn-peligro">Eliminar</button>
+                                        </form>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pagination-container">
+                    <p th:if="${equipos.isEmpty()}">No hay equipos registrados</p>
+
+                    <a class="pagination-button" th:if="${equipos.hasPrevious()}"
+                        th:href="@{/personal-equipo/equipos(page=${equipos.number - 1})}">Anterior</a>
+
+                    <p th:if="${!equipos.isEmpty()}">
+                        Mostrando página <span th:text="${equipos.number + 1}"></span>
+                        de <span th:text="${equipos.totalPages}"></span>
+                    </p>
+
+                    <a class="pagination-button" th:if="${equipos.hasNext()}"
+                        th:href="@{/personal-equipo/equipos(page=${equipos.number + 1})}">Siguiente</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
