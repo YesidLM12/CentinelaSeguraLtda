@@ -87,7 +87,7 @@ public class EntrenamientoService {
         
         entrenamientoRepository.delete(entrenamientoEntity.get());
         
-        log.info("Entrenamiento eliminado exitosamente por {}: {}", authentication.getName(), nombre);
+        log.info("Entrenamiento eliminado exitosamente por {}: {}", authentication.getName(), id);
     }
 
     public EntrenamientoEntity obtenerEntrenamientoPorNombre(String nombre) {

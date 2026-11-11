@@ -60,4 +60,10 @@ public class EntrenamientoController {
         model.addAttribute("entrenamiento", entrenamiento);
         return "entrenamiento/actualizar";
     }
+
+    @PostMapping("/{id}")
+    public String eliminarEntrenamiento(@PathVariable Long id, Authentication authentication) {
+        entrenamientoService.eliminarEntrenamiento(id, authentication);
+        return "redirect:/entrenamiento";
+    }
 }
