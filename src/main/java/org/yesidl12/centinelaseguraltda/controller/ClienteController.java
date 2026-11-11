@@ -16,7 +16,7 @@ import org.yesidl12.centinelaseguraltda.entity.ClienteEntity;
 import org.yesidl12.centinelaseguraltda.service.ClienteService;
 
 @Controller
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
     private final ClienteService clienteService;
 
@@ -45,7 +45,7 @@ public class ClienteController {
     ) {
         Page<Clientecommand> clientes = clienteService.listarClientes(page, size);
         model.addAttribute("clientes", clientes);
-        return "cliente/listar";
+        return "clientes/listar";
     }
 
     @PatchMapping("/{id}")
