@@ -15,15 +15,6 @@ public record EmpleadoCommand(
 
     public EmpleadoCommand(Object object, Object object2, Object object3, Object object4, Object object5,
             Object object6, Object object7, Object object8) {
-        this(
-            (String) object,
-            (String) object2,
-            (String) object3,
-            (String) object4,
-            (LocalDate) object5,
-            (String) object6,
-            (String) object7,
-            (LocalDate) object8
-        );
+        this( null, null, null, null, null,null,null,null);
     }
 }
